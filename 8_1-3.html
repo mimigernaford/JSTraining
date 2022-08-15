@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8 1-3 Funktionen</title>
+        <style>
+
+        </style>
+    <script type="text/javascript" src="dlibV224.js"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        'use strict'; 
+        //**********************************************************
+        //8.1-2 195-210
+        //8.1.1 Funktionsdeklarationen (klassisch) ...
+        //8.3 Arrow Functions
+        //mit Konstruktor 8.7.7
+        //function* Generatorfunktion Kap. 12
+        //async function Kap. 13
+        //*********************************************************
+        //8.1.2 F. als Ausdrücke
+        const eins = function(x){return x * x;};
+        const zwei = function Division (x){return x /2;};
+        const drei = [3,1,2].sort(function(a,b){return a-b;});
+        let XX = new Function("let a= 1;let b = 2; return a+b;");
+        const A_Z = {
+            a   :function(x,y){
+
+                let ax = x || 1;
+                let ay = y || 2;
+                return ax * ay;
+                }
+        }
+		//8.1.3 Pfeilfunktionen- sind Ausdrücke, keine Anweisungen!
+		const sum = (x ,y) => {return x + y; };
+		const sumShort = (x, y) => x + y; //bei nur einer return-Anweisung: return, Semikolon, geschw. Klammern können weggelassen werden
+		const sumUltraShort = x => x*2;//nur ein Parameter: ultrakurze Schreibweise
+		//Bei Objekten und komplexen Rückgaben vollständige Schreibweise verwenden, maximal return weglassen:
+		const fo = x => {return {value:x}; } ;
+		let fox = fo(7);
+        console.log(fox.value);
+        const LO = {
+            varA: 1,
+            varB: 2,
+            funk: x => x * (LO.varA + LO.varB),
+            funk2: x2 => x2 * (this.varA + this.varB),//diese Methode wird erst nach der Deklaration von LO ausgeführt, weswegen der Bezug auf this möglich ist
+            Mtho() {
+                //diese Methode wird erst nach der Deklaration von LO ausgeführt, weswegen der Bezug auf this möglich ist
+            this.result = this.varA + this.varB
+            }
+        }
+        //verschachtelte Funktion und "this"  Seite 205
+        let LP = {
+            m: function(){
+               let self = this;
+               this === LP
+                console.log(this === LP); //true
+                f();
+               //verschachtelte F, diese steht innerhalb von LP.m:
+                function f(){
+                this === LP
+                    console.log(this === LP); //false
+                self === LP
+                    console.log(self === LP); //true
+                }
+            }
+        };
+        LP.m();
+        //--------------------------
+        //wird b beim Aufruf nicht übergeben, dann ist b = a * a, andernfalls = dem übergebenen Wert
+        /*
+        getZahlen(2,66);
+        getZahlen(2);
+        getZahlen(2,[]);
+         */
+        function getZahlen(a,b = a*a){
+            let c = a + b;
+            console.log(`Typ von b = ${typeof b}`);
+            console.log(`b = ${b} (a*a) \na = ${a}`);
+            console.log(`a + b = ${c}`);
+        }
+        //und in Kurzschrift:
+        let getZahl = (a=42,b = a*a) => {return "b = " + b + " und a = " + a};
+		//----------------------------------------------------------
+        //übergebene Argumente und defaults 8.3
+		function Argumente(a=42,b = "b: keine Eingabe",c = berechneC(a),d = a){
+            //a = a || 0;
+		console.log(`arguments.length ist ${arguments.length}`);
+		console.log(`a = ${a} und b = ${b} und c ist ${c}, d = ${d}`);
+		}
+		
+		function berechneC(a=1){
+            return a *5;
+        }
+		//---
+        function initEvent(){
+        //Test: Shorthandfunction auf eventhandler: das geht nicht
+        //document.getElementsByTagName("div")[0].setAttribute("onclick","( ()=>{alert('!')}() )" )
+        document.getElementsByTagName("div")[0].setAttribute("onclick","( function (){alert('!')}() )" )
+        }
+        //Funktionen, die mit mehr als den erwarteten Parametern aufgerufen werden, 8.3.2
+        //keine vordefinierten Standardwerte für das RestArray
+        function multiPar(p0,p1,...pn){
+        console.log(arguments.length);
+        console.log(`argument[0] = ${p0}, argument[1] = ${p1}, Länge des Arrays pn = ${pn.length}, Wert von pn[4] = ${pn[4]}`);
+        console.log(`pn: ${pn} \n Ausgabe mit forEach`);
+            pn.forEach((a)=>{
+            console.log(a);
+            });
+        console.log(`pn ist ein Array -> ${DUETT.is_array(pn)}`);
+        }
+        //-- 8.3.4 Spread-Operator "..." für Funktionsaufrufe
+        let numbers = [10,5,12,-1,0,1000,9];
+        let outnum = Math.min(...numbers);
+        let outnum2 = Math.max(...numbers);
+        console.log(`Minimum ${outnum}`);//-1
+        console.log(`Maximum ${outnum2}`);//1000
+        //klassisch? geht nicht
+/*        let outnum3 = Math.max(arguments);
+        console.log(`Maximum 3 ${outnum3}`);*/
+        //und Funktionsdefinitionen -> erzeugt dann ein Array der Übergabewerte
+        function testSpreader(...params){
+        console.log(`Parameter ${params}`);
+        console.log(`params[2] =  ${params[2]}`);
+        console.log(`typeof Parameter ${typeof params}`);
+        console.log(`Parameter ist ein Array -> ${DUETT.is_array(params)}`);
+            //klassisch
+            console.log(`arguments ${arguments}`);
+            console.log(`typeof arguments ${typeof arguments}`);
+            console.log(`arguments ist ein Array -> ${DUETT.is_array(arguments)}`);
+        }
+        //Standard bisher
+        function machWas(){
+            console.log(`arguments ${arguments}`);
+            console.log(`typeof arguments ${typeof arguments}`);
+            console.log(`arguments ist ein Array -> ${DUETT.is_array(arguments)}`);
+            console.log(`arguments[2] = ${arguments[2]}`);
+        }
+        // -------------------------------------------------------------------------------
+        window.onload = function(){
+            testSpreader(1,23,4,5,6,7,8);
+            machWas(1,23,4,5,6,7,8);
+            console.log("K 8.3.5");
+
+        }
+        // --------------------8.3.5-Funktionsargumente in Parameter destrukturieren
+        function testerPar1(a,b=22,c={a:0,b:1,c:2}) //das hier sind nur die Defaultwerte
+        {
+            let x = (!c.c)?c:c.c;
+            console.log(`${a} ${b} ${x}`);
+        }
+        //Aufruf mit testerPar1(1,"Text",{c:42});//
+        //es geht auch: testerPar1(1,"Text",c=5);
+        // ]]>
+        </script>
+        </head>
+        <body>
+        <h1>O'Reilly ES2020</h1>
+        <h2>O'Reilly Javascript 7. Aufl. Kap 8 1-3 Funktionen</h2>
+        <p>Null</p>
+        <p>eins</p>
+        <p>zwei</p>
+        <p>drei</p>
+        <p>vier</p>
+        <p>fuenf</p>
+        <div>div mit Eventhandler onclick und Shorthandfunction</div>
+        </body>
+        </html>

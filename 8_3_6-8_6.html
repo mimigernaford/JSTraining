@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.3.6 - 8.6 Funktionen ff.</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        /**********************************************************
+        Typen übergebener Argumente prüfen
+         s. a. DUETT.is_array
+        *********************************************************/
+        let a = [9,8,7,6,8,"Text"];
+        let a1 = [{a:9,b:7,c:6},2,3,3,9,8,0];
+        let b = "Textstring";
+        let d;
+
+        function machWas(...par){
+
+            console.log(`machWas.con ist ${machWas.con}`);//zu 8.4.1
+
+
+
+
+            console.log(`par typ == array? ${DUETT.is_array(par)}`);
+            d = Array.from(par);
+
+
+
+            //--
+            console.log(`das Array d aus par ${d}`);
+            for(let x of par){
+                console.log(`x of par = ${x}`);
+            }
+            console.log(`par[0] == Array => ${DUETT.is_array(par[0])}`);
+            let d2 = par[0];
+            console.log(d2[1]);
+
+                if(DUETT.is_array(par[0])) {
+                    par[0].forEach(function (e) {
+                        console.log(`e => ${e}`);
+                    });
+                }
+                //console.log(`z => ${z}`);
+                //console.log(`${par[0]}`);
+                //console.log(`par typ == array? ${DUETT.is_array(par)}`);
+
+        }
+
+
+        //8.4 Funktionen als Werte
+        let x = (A=a[0],B=a[1]) => {return A*B;} //x() = 72 oder x(2,3) = 6 oder let Y = x() = 72 oder let Y = x(7,4)
+        let X = x(2,3);//X = 6
+        let o = {sum:(zahl)=>{return zahl+zahl},mul:(zahl)=>{return zahl*zahl}}
+        let O = o.sum(5);//10
+
+        //8.4.1 eigene Funktionseigenschaften definieren
+        machWas.con = 10; //(s.o.)
+        //oder
+        function TuWas(zahl){
+            //zu 8.4.1
+            if(typeof zahl == "number") {
+                /*
+                "find" entspricht in_array; jedes Element x im Array IOs wird gegen zahl geprüft
+                 */
+                if (!TuWas.IOs.find(x=>x==zahl) ) {
+                    TuWas.IOs.push(zahl);
+                    console.log(zahl + " gab es noch nicht");
+                } else {
+                    console.log(zahl + " gibt es bereits");
+                }
+            }
+            else{
+                console.log(zahl +" !number ");
+            }
+        }
+        TuWas.IOs = [];
+        TuWas.funk = function(){console.log("funk")}
+        //------------------------------------------
+        //8.5 Funktionen als Namensräume, "Immediately Invoked Function Impression" (closure):
+        let B = (function(name){
+               let r = (function(name) {return `Hallo ${name} !`;}(name));
+               function HuHu(){console.log("Huhu!")}//HuHu(f) ist nur in dieser Closure vorhanden
+                //und kann nur hier aufgerufen werden
+                HuHu();
+               return r;
+
+            }("Michael"))
+        console.log(B);
+        // 8.6 verschachtelte Funktions-Closures------------------------------------------------------------------
+        //1)
+            let scope = "global scope 1";
+            function checkscope(){
+                let scope = "local scope 1";
+                function f(){return scope;}
+            return f();//diese runden Klammern werden in 2) nach außen verschoben
+            }
+            console.log(checkscope());
+        //2)
+        let Scope = "global scope 2";
+        function CheckScope(){
+            let scope = "local scope 2";
+            function f(){return scope;}
+            return f; //die runden Klammern wurden nach außen verschoben: CheckScope()()
+        }
+        console.log( CheckScope()() );
+        // -------------------------------------------------------------------------------
+        window.onload = function(){
+            console.log("ES2020 O'Reilly Javascript 7. Aufl. Kap 8.3.6 - 8.6 ");
+            console.log("a ist ein Array: "+ DUETT.is_array(a));
+            console.log("b ist ein Array: "+ DUETT.is_array(b));
+            console.log("O = "+ O);
+        }
+        // -------------------------------------------------------------------------------
+        //closures Beispiel 8-2
+        function addPrivateProp(objekt,name,wert){
+            let value;//dies ist ein Eigenschaftswert
+            objekt[`get${name}`] = function(){return value;}
+            objekt[`set${name}`] = function(v){
+                if(wert && !wert(v)){
+                throw new TypeError(`set${name}: invalid value ${v}`);
+               }else {
+                  value=v;
+                }
+            };
+        }
+        /*
+        ausführen:
+        let objekt = {}; //Objekt anlegen
+        es sollen nur Strings als Werte erlaubt sein:
+        addPrivateProp(objekt,"Name",x => typeof x === "string");
+        objekt.setName("Frank");
+        objekt.getName();
+
+        durch die Konstruktion mit objekt[`get${name}`] sind die Namen der Funktionen variabel, s.a.u.
+        let doedel = {}
+        addPrivateProp(doedel,"Dudel",x => typeof x === "string");
+        doedel.setDudel("düdeldä");
+        doedel.getDudel()
+         */
+        // -------------------------------------------------------------------------------
+        // 8-2 in klassischer Schreibweise ohne Backtics
+        function addPP(obj,name,wert){
+            var value;//dies ist ein Eigenschaftswert
+            obj["get"+name] = function(){return value;}
+            obj["set"+name] = function(v){
+                if(wert && !wert(v)){
+                    throw new TypeError("set"+name+": invalid value "+v);
+                }else {
+                    value=v;
+                }
+            };
+        }
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.3.6 - 8.6 Funktionen</h2>
+<p>Null</p>
+<p>eins</p>
+<p>zwei</p>
+<p>drei</p>
+<p>vier</p>
+<p>fuenf</p>
+<div>div mit Eventhandler onclick und Shorthandfunction</div>
+</body>
+</html>

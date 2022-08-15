@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.7 Funktionen ff.</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //function->length, ->arguments
+        function machWas(a,b,c,...rest){
+            console.log("arguments.length = "+ arguments.length);//?ist = 6 -> machWas(1,2,3,"a","b","c");
+            console.log("machWas.length = "+ machWas.length);//?ist = 3 -> machWas(1,2,3,["a","b","c"]);
+            console.log(a +" "+ b +" "+ c);
+            console.log(rest);//(3) ['a', 'b', 'c']
+        }
+        //machWas()
+        //machWas(1)
+        function tuWas(){
+            console.log("arguments.length = "+ arguments.length);//?ist = 6 -> machWas(1,2,3,"a","b","c");
+            console.log("tuWas.length = "+ tuWas.length);//?ist = 0 -> tuWas();
+            console.log(arguments);
+            //console.log(rest);//(3) ['a', 'b', 'c']
+        }
+        //function.length ist die Zahl der Parameter in der Funktionsdeklaration, ...rest wird nicht mitgezählt
+        //arguments.length ist die Zahl der tatsächlich übergebenen Argumente (Parameter)
+        // -------------------------------------------------------------------------------
+        //machWas.name
+        console.log(`Funktionsnamen ${machWas.name}, ${tuWas.name}`);
+        let x = (a,b)=>{return a+b;}
+        console.log(`bei anon. Funk. x=2+2 => VarName ${x.name} = Funktionsname`);
+        // -------------------------------------------------------------------------------
+        let objekt_0 = {a:2,b:4}
+        let objekt_1 = {a:1,b:1}
+        let f = function(x,y){
+            console.log(`this.a = ${this.a}`);//a von objekt (=2)
+            return ( ((x + y)*this.a)/this.b );
+        }
+        f.call(objekt_0,32,64);//Konsole 48
+        f.call(objekt_1,128,16);//Konsole 144
+
+        //ES6
+        let a1 = "1234567890";
+        let a2b = Math.max(...a1);
+        //ES5
+        let a02 = [0,1,2,3,4];
+        let a0 = Math.max.apply(Math,a02);
+        // -------------------------------------------------------------------------------
+        //bind(); am besten nicht mit Pfeilfunktionen verwenden, weil "this" nicht übertragbar
+        let Fz0 = f.bind(objekt_0);// f in Zeile 38
+        let Fz1 = f.bind(objekt_1);// f in Zeile 38
+        //Fz0(5,5); 
+        //dient nur dazu, this auf das Objekt umzubiegen, nicht, um z.B. eine Funktion als Methode einem Objekt hinzuzufügen
+        // -------------------------------------------------------------------------------
+
+        window.onload = function(){
+            console.log("ES2020 O'Reilly Javascript 7. Aufl. Kap 8.7 ");
+            machWas(1,2,3,"a","b","c");
+            console.log("------------------");
+            tuWas(1,2,3,"a","b","c");
+        // -------------------------------------------------------------------------------
+
+
+        }
+        // -------------------------------------------------------------------------------
+        //8.7.4 call, apply
+
+
+
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.7 Funktionen</h2>
+&hellip;
+</body>
+</html>

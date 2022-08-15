@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.8 QFunktionen, funktionale Programmierung</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //Arrays mit Funktionen bearbeiten - "funktionale Programmierung"
+        // -------------------------------------------------------------------------------
+        const sho       = (x,y) => `${x},${y}`;
+        const sum       = (x,y) => x+y;
+        const sqr       = x => x*x;
+        let data        = [1,1,3,5,5];
+        console.log("------------------");
+        //Variante 1
+        let Mittel      = data.reduce(sum)/data.length;// = 15:5 = 3
+        let Abweichung  = data.map(x => x-Mittel);
+        let StdAbweich  = Math.sqrt(Abweichung.map(sqr).reduce(sum)/(data.length-1));
+        //---------------------------------------
+        //Variante 2
+        //map und reduce in funktionaler Schreibweise
+        const map       = function (a,...args){console.log(`map: ${args}`);return a.map(...args);};
+        const reduce    = function (a,...args){console.log(`reduce: ${args}`);return a.reduce(...args);};
+
+        let Mittel_2      = reduce(data,sum)/data.length;// = 15:5 = 3
+        let Abweichung_2  = map(data,x => x-Mittel);
+        let StdAbweich_2  = Math.sqrt(reduce(map(Abweichung_2,sqr),sum)/(data.length-1));
+        //---------------------------------------
+
+        function Anzeige(){
+        console.log(`Variante 1
+        Mittel = ${Mittel} \n
+        Abweichung = ${Abweichung}
+        StdAbweich = ${StdAbweich}
+        `);
+        console.log(`Variante 2 mit gleichem Ergebnis und map und reduce in funktionaler Schreibweise:
+        Mittel = ${Mittel} \n
+        Abweichung_2 = ${Abweichung_2}
+        StdAbweich_2 = ${StdAbweich_2}
+        `);
+        }
+        window.onload = function(){
+            Anzeige();
+            console.log("------------------");
+
+
+        // -------------------------------------------------------------------------------
+
+
+        }
+
+
+
+
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.8 Funktionen, funktionale Programmierung</h2>
+&hellip;
+</body>
+</html>

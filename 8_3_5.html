@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8 3.5 f. Funktionen</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //**********************************************************
+        //8.3.5f. Funktionsargumente in Parameter destrukturieren
+        //*********************************************************
+
+        // -------------------------------------------------------------------------------
+        window.onload = function(){
+            console.log("K 8.3.5");
+
+        }
+        // --------------------8.3.5-Funktionsargumente in Parameter destrukturieren
+        function testerPar1(a,b=22,c={a:0,b:1,c:2}) //das hier sind nur die Defaultwerte
+        {
+            let x = (!c.c)?c:c.c;
+            console.log(`${a} ${b} ${x}`);
+        }
+        //Aufruf mit testerPar1(1,"Text",{c:42});//
+        //es geht auch: testerPar1(1,"Text",c=5);
+        //---------------------------------------
+        //Der Aufrufer KANN eine Funktion mit Argumenten der Form Name=Wert aufrufen!!!
+        //(anders als im Buch beschrieben!!!)
+        //testerPar2(a=1,b="Text mit b",c=5);
+        function testerPar2(...par) //ohne Defaultwerte
+        {
+            let x = (!c.c)?c:c.c;
+            console.log(`a=${a} b=${b} a+b=${a+b} x=${x} von c: ${typeof c}`);
+            //console.log(par.shift());
+            console.log(par);
+        }
+        //testerPar2(a=1,b="Text",c=5,"Text 2",128,1024); GEHT! s. Seite 213
+        //testerPar2([a=1,b="Text",c=5,"Text 2"],128,1024);
+        function testerPar3([x,y,...par],...rest){
+        console.log(`x=${x} y=${y} und par=${par} und rest=${rest}`);
+        console.dir(typeof arguments[arguments.length-1]);//string
+        console.dir(`rest = ${typeof rest} is_array => ${DUETT.is_array(rest)}`);//object (array);
+        console.dir(`par = ${typeof par} is_array => ${DUETT.is_array(par)}`);//object (array);
+        console.log(rest[1]);//Obst
+        console.log(par[1]);//Text im ersten Array (1)
+        console.log(arguments[0][2]);//Text zu testerPar3 (0)
+        }
+        //testerPar3([1,2,"Text zu testerPar3 (0)","Text im ersten Array (1)"],"Das ist der Rest!","Obst","Äpfel");
+        //**********************************
+        //-Destrukturierung komplexer Argumente (verschachtelte Objekte, Arrays)
+        const CX = {}
+        function destruct(  {x,y,radius,color:[r,g,b],...par},...rest  )  {
+        let A = arguments[0];
+        CX.par = par;
+        CX.rest = rest;
+        console.log(`rest = ${rest}`);
+            console.log(rest);
+            console.log(rest[rest.length-1].e);
+        console.log(`par = ${par}`);
+            console.log(par);
+        console.log("-----------");
+        console.log(A);
+        console.log(A.y);
+            for(let a in A){
+            console.log(`A[${a}] = ${A[a]} -> ${typeof A[a]}`);
+            //console.log(typeof a);
+            }
+        }
+        //destruct({x:0,y:1,radius:10,color:[1,2,3],hubendubel:42,garglkarg:"boelkstoff"},9,8,7,4,6,6,8,{e:"Ein Objekt!"})
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 8.3.5 Funktionsargumente in Parameter destrukturieren</h2>
+<p>Null</p>
+<p>eins</p>
+<p>zwei</p>
+<p>drei</p>
+<p>vier</p>
+<p>fuenf</p>
+<div>div mit Eventhandler onclick und Shorthandfunction</div>
+</body>
+</html>
