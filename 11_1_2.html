@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.8_2ff Funktionen höherer Ordnung</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+
+        // -------------------------------------------------------------------------------
+        function not(f){
+            return function (...args){
+            let result = f.apply(this,args);
+            console.log(`args in funktion not: ${args}`);
+            return !result;
+            }
+        }
+        const even = x => x % 2 === 0;
+        const odd = not(even);
+        let A = [1,1,3,5,5].every(odd);
+        //---------------------------------------
+        function eins(funk,x){
+            console.log(x);
+            return funk + x;
+        }
+        function zwei(a,b){
+            return a * b;
+        }
+
+        let io = eins(zwei(2,3),2);
+        //---------------------------------------
+
+        //---------------------------------------
+
+        function Anzeige(){
+        console.log(`gestartet...
+        ${A}
+        ${io}
+        `);
+        }
+
+        window.onload = function(){
+            Anzeige();
+            console.log("------------------");
+
+
+        // -------------------------------------------------------------------------------
+
+
+        }
+
+
+
+
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 8.8 Funktionen, funktionale Programmierung</h2>
+&hellip;
+</body>
+</html>
