@@ -11,6 +11,8 @@
         //<![CDATA[
         'use strict';
         let M = new Map([ ["alpha","Wert 1"],["beta",2] ]);//Map allgemein, das Mittel der Wahl für assoz. Arrays
+        //M.has("alpha")
+        //true
         // -------------------------------------------------------------------------------
         let A = ["a","b","c"];
         let M0 = new Map();
@@ -33,7 +35,10 @@
             console.log("forEach M0-> key = "+ key );//keys
         })
 
-
+        /*
+        M0.has("1")
+        true
+         */
         //Abfrage mit get, hinzufügen mit set
         //---------------------------------------
         M.set("gamma",42);
