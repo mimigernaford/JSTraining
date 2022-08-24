@@ -21,14 +21,22 @@
         console.log(F.constructor);
         //------------- ---------------------------------------------
         //Variante von 58_classKfz.html
+        //let FiatUno = new KFZ(120,0,"Fiat","Uno","1990","45",1000,"blau","3","super");
+        //let FiatUno = new PKW(120,0);
+        //FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
+
+        //FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
         class KFZ{
             //mit _tempo einen Standardwert bei der Instanzierung festlegen oder einen vordefinierten Wert (hier "30") verwenden
             constructor(_tempo,_dir) {
                 this.Fahren = (tempo = _tempo || 30) => {
-                    console.log("Fahren mit " +tempo);
+
+                    console.log(`${this.Eigenschaften.marke} fahren mit ${tempo} km/h`);
                 };
                 this.Lenken = (dir = _dir || 0, akt = ["geradeaus","links","rechts"]) => {
-                    console.log("nach " +akt[dir]+ " lenken.");
+                    console.log(
+                        (dir != 0 && typeof dir == "number")?"nach " +akt[dir]+ " lenken.":"geradeaus fahren"
+                    );
                     console.log(dir);
                 };
                 this.Bremsen = () => {
@@ -41,6 +49,7 @@
                     console.log("Kostet Geld!");
                 };
                 this.Eigenschaften = {};
+                this.x = 42;
                 /*
            Wurde die Funktion als Konstruktor aufgerufen?
            (ES2020 O'Reilly Javascript 7. Aufl. Kap 9.1-3)
@@ -49,6 +58,57 @@
             }
         }
         //------------- ---------------------------------------------
+        class PKW extends KFZ{
+            Create(marke,modell,baujahr,ps,hub,color,tueren,sprit){
+                //gesch�tzt:
+                this.Eigenschaften.marke 		= marke 		|| "o. A."; //vorherige Deklaration notwendig
+                Object.defineProperty(this.Eigenschaften, 'marke', {
+                    writable: false
+                });
+                this.Eigenschaften.modell 		= modell 		|| "o. A."; //vorherige Deklaration notwendig
+                Object.defineProperty(this.Eigenschaften, 'marke', {
+                    writable: false
+                });
+                this.Eigenschaften.baujahr 		= baujahr 		|| "o. A.";
+                Object.defineProperty(this.Eigenschaften, 'baujahr', {
+                    writable: false
+                });
+                this.Eigenschaften.sprit 		= sprit 		|| "o. A.";
+                Object.defineProperty(this.Eigenschaften, 'sprit', {
+                    writable: false
+                });
+                this.Eigenschaften.tueren 		= tueren 		|| "o. A.";
+                Object.defineProperty(this.Eigenschaften, 'tueren', {
+                    writable: false
+                });
+
+                // Object.freeze(this.Eigenschaften); //tuts: Eigenschaften können nicht überschrieben werden, Test: Object.isFrozen(Auto[n])
+                //überschreibbar
+                this.Eigenschaften.ps 		= ps 		|| "o. A.";
+                this.Eigenschaften.hub 		= hub 		|| "o. A.";
+                this.Eigenschaften.farbe 	= color 	|| "o. A.";
+
+                console.log(` Aufruf von PKW als Konstruktor? -> ${new.target != undefined} `);
+
+                // Object.freeze(this.Eigenschaften.baujahr);// einzelne Eigenschaften, tuts so nicht. Stattdessen: Object.defineProperty s.o.
+            }
+        }
+        //------------- ---------------------------------------------
+        let AUTOS = new Map();
+        onload = ()=>{
+            let FiatUno = new PKW(120,0);
+            FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
+                AUTOS.set("FiatUno",FiatUno);
+            let OpelAstra = new PKW(160,0);
+            OpelAstra.Create("Opel","Astra","1998","105",1600,"rot","5","super");
+                AUTOS.set("OpelAstra",OpelAstra);
+            //-------------
+            console.log("Folgende Fahrzeuge stehen bereit:")
+            AUTOS.forEach((a,key)=>{
+              console.log(key);
+            });
+        }
+        //AUTOS.get("Fiat").Eigenschaften.modell
         // ]]>
     </script>
 </head>
