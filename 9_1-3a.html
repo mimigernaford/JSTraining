@@ -98,14 +98,14 @@
         onload = ()=>{
             let FiatUno = new PKW(120,0);
             FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
-                AUTOS.set("FiatUno",FiatUno);
+            AUTOS.set("FiatUno",FiatUno);
             let OpelAstra = new PKW(160,0);
             OpelAstra.Create("Opel","Astra","1998","105",1600,"rot","5","super");
-                AUTOS.set("OpelAstra",OpelAstra);
+            AUTOS.set("OpelAstra",OpelAstra);
             //-------------
             console.log("Folgende Fahrzeuge stehen bereit:")
             AUTOS.forEach((a,key)=>{
-              console.log(key);
+                console.log(key);
             });
             console.log("Ausführen mit AUTOS.get('Bezeichnung')")
         }
