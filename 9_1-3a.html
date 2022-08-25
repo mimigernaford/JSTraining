@@ -10,15 +10,7 @@
     <script type="text/javascript">
         //<![CDATA[
         'use strict';
-        /* 9.2.2
-        jede JS-Funktion besitzt eine prototype Eigenschaft und einen damit verbundenen Konstruktor
-        Konstruktoren sind die öffentliche Identität einer Klasse
-         */
-        function F(){let a = 1+1;}
-        console.log("F.prototype = "+F.prototype);
-        console.log("F.constructor = "+F.constructor);
-        console.log(F.prototype);
-        console.log(F.constructor);
+
         //------------- ---------------------------------------------
         //Variante von 58_classKfz.html
         //let FiatUno = new KFZ(120,0,"Fiat","Uno","1990","45",1000,"blau","3","super");
@@ -27,89 +19,41 @@
 
         //FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
         class KFZ{
-            //mit _tempo einen Standardwert bei der Instanzierung festlegen oder einen vordefinierten Wert (hier "30") verwenden
-            constructor(_tempo,_dir) {
-                this.Fahren = (tempo = _tempo || 30) => {
 
-                    console.log(`${this.Eigenschaften.marke} fahren mit ${tempo} km/h`);
+            constructor() {
+                this.Fahren = () => {
+
+                    console.log("Fahren");
                 };
-                this.Lenken = (dir = _dir || 0, akt = ["geradeaus","links","rechts"]) => {
-                    console.log(
-                        (dir != 0 && typeof dir == "number")?`${this.Eigenschaften.marke} nach ${akt[dir]} lenken.`:"geradeaus fahren"
-                    );
-                    console.log(dir);
+                this.Lenken = () => {
+
+                    console.log("Lenken");
                 };
-                this.Bremsen = () => {
-                    console.log("Quietsch!");
-                };
-                this.Parken = () => {
-                    console.log("Parken nur gegen Geld!");
-                };
-                this.Tanken = () => {
-                    console.log("Kostet Geld!");
-                };
-                this.Eigenschaften = {};
-                this.x = 42;
-                /*
-           Wurde die Funktion als Konstruktor aufgerufen?
-           (ES2020 O'Reilly Javascript 7. Aufl. Kap 9.1-3)
-            */
-                console.log(` Aufruf von KFZ als Konstruktor? -> ${new.target != undefined} `);
+
+               this.Eigenschaften = {};
+               
+
             }
         }
         //------------- ---------------------------------------------
         class PKW extends KFZ{
-            Create(marke,modell,baujahr,ps,hub,color,tueren,sprit){
-                //geschützt:
-                this.Eigenschaften.marke 		= marke 		|| "o. A."; //vorherige Deklaration notwendig
-                Object.defineProperty(this.Eigenschaften, 'marke', {
-                    writable: false
-                });
-                this.Eigenschaften.modell 		= modell 		|| "o. A."; //vorherige Deklaration notwendig
-                Object.defineProperty(this.Eigenschaften, 'marke', {
-                    writable: false
-                });
-                this.Eigenschaften.baujahr 		= baujahr 		|| "o. A.";
-                Object.defineProperty(this.Eigenschaften, 'baujahr', {
-                    writable: false
-                });
-                this.Eigenschaften.sprit 		= sprit 		|| "o. A.";
-                Object.defineProperty(this.Eigenschaften, 'sprit', {
-                    writable: false
-                });
-                this.Eigenschaften.tueren 		= tueren 		|| "o. A.";
-                Object.defineProperty(this.Eigenschaften, 'tueren', {
+            constructor(marke) {
+                super(marke); //Der constructor ist dann KFZ
+
+                //Eigenschaft "marke"
+                this.Eigenschaften.Marke =  marke || 42;
+                //Schreibschutz:
+                Object.defineProperty(this.Eigenschaften, 'Marke', {
                     writable: false
                 });
 
-                // Object.freeze(this.Eigenschaften); //tuts: Eigenschaften können nicht überschrieben werden, Test: Object.isFrozen(Auto[n])
-                //überschreibbar
-                this.Eigenschaften.ps 		= ps 		|| "o. A.";
-                this.Eigenschaften.hub 		= hub 		|| "o. A.";
-                this.Eigenschaften.farbe 	= color 	|| "o. A.";
-
-                console.log(` Aufruf von PKW als Konstruktor? -> ${new.target != undefined} `);
-
-                // Object.freeze(this.Eigenschaften.baujahr);// einzelne Eigenschaften, tuts so nicht. Stattdessen: Object.defineProperty s.o.
             }
+
+
         }
         //------------- ---------------------------------------------
-        let AUTOS = new Map();
-        onload = ()=>{
-            let FiatUno = new PKW(120,0);
-            FiatUno.Create("Fiat","Uno","1990","45",1000,"blau","3","super");
-            AUTOS.set("FiatUno",FiatUno);
-            let OpelAstra = new PKW(160,0);
-            OpelAstra.Create("Opel","Astra","1998","105",1600,"rot","5","super");
-            AUTOS.set("OpelAstra",OpelAstra);
-            //-------------
-            console.log("Folgende Fahrzeuge stehen bereit:")
-            AUTOS.forEach((a,key)=>{
-                console.log(key);
-            });
-            console.log("Ausführen mit AUTOS.get('Bezeichnung')")
-        }
-        //AUTOS.get("Fiat").Eigenschaften.modell
+
+
         // ]]>
     </script>
 </head>
