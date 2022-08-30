@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 9.1-3 Klassen</title>
+    <style> 
+
+    </style>
+    <script type="text/javascript" src="dlibV224.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+
+        //------------- ---------------------------------------------
+        //Variante von 58_classKfz.html
+        class KFZ{
+            //------------- ---------------------------------------------
+            constructor(marke,color) {
+
+
+
+
+
+                Object.defineProperty(this, 'marke', {
+                    value:marke,
+                    writable: false,
+                    enumerable:true,
+                    configurable:true
+                });
+                //eine Methode im Konstruktor der Klasse wird mit this. deklariert: Syntax wie eine function
+                this.Fahren = () => {
+
+                    console.log(this.marke+ " fahren");
+
+
+
+                };
+                this.Farbe = color;
+
+            }
+            //------------- ---------------------------------------------
+            //eine Methode im body der Klasse wird wie eine function aber ohne die Schlüsselwörter function und this deklariert
+            Bremsen(){
+                console.log("Methode Bremsen von " +this.marke)
+            }
+
+        }
+
+
+
+
+
+        // ]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 9.1-3</h2>
+s. JS/ 15_ - 27_object.html für Kap. 9.1-3
+</body>
+</html>
