@@ -16,38 +16,53 @@
         class KFZ{
             //------------- ---------------------------------------------
             constructor(marke,color) {
-
-
-
-
-
+                //eine Eigenschaft mit Attributen im Konstruktor
                 Object.defineProperty(this, 'marke', {
-                    value:marke,
+                    value:marke || "Trabant",
                     writable: false,
                     enumerable:true,
                     configurable:true
                 });
                 //eine Methode im Konstruktor der Klasse wird mit this. deklariert: Syntax wie eine function
+                //hier mit der Pfeilsyntax
                 this.Fahren = () => {
-
                     console.log(this.marke+ " fahren");
-
-
-
                 };
-                this.Farbe = color;
+                //einfache Deklaration einer Eigenschaft im Konstruktor
+                this.Farbe = color || "ohne Farbe...";
 
-            }
+            }//Ende des Konstruktors
             //------------- ---------------------------------------------
             //eine Methode im body der Klasse wird wie eine function aber ohne die Schlüsselwörter function und this deklariert
             Bremsen(){
                 console.log("Methode Bremsen von " +this.marke)
             }
 
+        }//Ende der Klasse
+
+        /*
+        eine KFZ erweiternde Klasse PKW
+        hat diese einen Konstruktor muss "super" gesetzt werden
+        eigentlicher Konstruktor ist dann jener, der erweiterten Klasse (Oberklasse)
+        die Parameter für die Oberklasse werden mit super()
+        */
+        class PKW extends KFZ{
+            constructor(sitze,tueren,typ, marke,color) {
+            super(marke,color = color || "weiß");
+            Object.defineProperty(this,"Sitze",{
+                value:sitze || 4,
+                writable:false,
+                enumerable:true,
+                configurable:true
+                });
+            Object.defineProperty(this,"Typ",{
+                value:typ || "coupe",
+                writable:false,
+                enumerable:true,
+                configurable:false
+                });
+            }
         }
-
-
-
 
 
         // ]]>
