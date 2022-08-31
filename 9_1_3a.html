@@ -42,9 +42,9 @@
 
         /*
         eine KFZ erweiternde Klasse PKW
-        hat diese einen Konstruktor muss "super" gesetzt werden
-        eigentlicher Konstruktor ist dann jener, der erweiterten Klasse (Oberklasse)
-        die Parameter für die Oberklasse werden mit super()
+        hat KFZ einen Konstruktor muss in PKW "super" gesetzt werden
+        eigentlicher Konstruktor ist dann jener, der erweiterten Klasse (Oberklasse = KFZ)
+        die Parameter für die Oberklasse werden mit super() übergeben
         */
         class PKW extends KFZ{
             constructor(sitze,tueren,typ, marke,color) {
