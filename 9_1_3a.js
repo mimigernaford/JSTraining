@@ -62,6 +62,7 @@
 KFZ.prototype.setGang = (step) => {console.log(`Gang ${step} einlegen!`)}
 PKW.prototype.Radio = (sender)=>{console.log(sender)}
 Z.Radio("WDR 2")
-Y instanceof PKW,
+let Y = new PKW(4,5,null,"Opel",null);
+Y instanceof PKW;
 let Z = new PKW()
  */
