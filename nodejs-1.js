@@ -14,7 +14,7 @@ server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
 */
-
+//Testen auf der Konsole von node.js
 'use strict';
 class myServer{
     constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3000) {

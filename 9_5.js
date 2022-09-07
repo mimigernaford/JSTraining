@@ -20,8 +20,6 @@
                 //einfache Deklaration einer Eigenschaft im Konstruktor
                 this.Farbe = color || "ohne Farbe...";
                 this.Doors = doors || 2;
-
-
             }//Ende des Konstruktors
             //------------- ---------------------------------------------
             //eine Methode im body der Klasse wird wie eine function aber ohne die Schlüsselwörter function und this deklariert
@@ -42,8 +40,9 @@
         s. 15_object.html
         */
         class PKW extends KFZ{
-            constructor(sitze,doors,typ, marke,color) {
+            constructor(sitze,doors,typ, marke,color,ps) {
             super(marke,color = color || "weiß", doors = doors || 2);//Reihenfolge!! : KFZ-->constructor(marke,color,tueren)
+            this.PS = ps || 45;
             Object.defineProperty(this,"Sitze",{
                 value:sitze || 4,
                 writable:false,
@@ -63,7 +62,8 @@ KFZ.prototype.setGang = (step) => {console.log(`Gang ${step} einlegen!`)}
 PKW.prototype.Radio = (sender)=>{console.log(sender)}
 Z.Radio("WDR 2")
 let Y = new PKW(4,5,null,"Opel",null);
+let Opel = new PKW(4,5,"1.6G 16V elegance","Opel","Marseillerot");
 Y instanceof PKW;
 let Z = new PKW()
-Object.getOwnPropertyDescriptor(Z, "Doors").writable;
+Object.getOwnPropertyDescriptor(Z, "Doors").writable; //Singular/Plural bei Descriptors beachten!!
  */
