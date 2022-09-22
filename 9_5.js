@@ -25,7 +25,9 @@
             //------------- ---------------------------------------------
             //eine Methode im body der Klasse wird wie eine function aber ohne die Schlüsselwörter function und this deklariert
             Bremsen(){
-                console.log("Methode Bremsen von " +this.marke)
+                console.log("Methode Bremsen der Superklasse von " +this.marke);
+                this.Bremsen.xb = 1;
+                this.Bremsen.xc = -1;
             }
             //eine Eigenschaft via "getter", diese Funktion darf nicht im Konstruktor stehen
             get KfzBez(){return this.marke +" "+ this.Typ} //"getter" -> der Funktionsname wird zum Eigenschaftsnamen
@@ -44,7 +46,7 @@
         class PKW extends KFZ{
             constructor(sitze,doors,typ, marke,color,ps,step) {
             super(marke,color = color || "weiß", doors = doors || 2,step = step || 1);//Reihenfolge!! : KFZ-->constructor(marke,color,tueren)
-            this.PS = ps || 45;
+            this.PS = ps || 45;// this. darf erst verwendet werden, wenn super() aufgerufen wurde
 
             Object.defineProperty(this,"Sitze",{
                 value:sitze || 4,
@@ -58,7 +60,17 @@
                 enumerable:true,
                 configurable:false
                 });
+
+            this.Bremsen = super.Bremsen;
+                //wenn aktiv, dann wird die Methode der Subklasse (s.u.) ignoriert
+            }//Ende constructor
+            //Methode Bremsen der Subklasse überschreibt super.Bremsen()??
+            Bremsen(){
+                console.log("Subklasse Methode Bremsen von " +this.marke)
             }
+
+
+
         }
 KFZ.prototype.setGang = (step) => {console.log(`Gang ${step} einlegen!`); this.Gang = step}
 PKW.prototype.Radio = (sender)=>{console.log(sender)}
