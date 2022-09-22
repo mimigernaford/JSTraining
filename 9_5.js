@@ -61,16 +61,27 @@
                 configurable:false
                 });
 
-            this.Bremsen = super.Bremsen;
+            this.Bremsen2 = super.Bremsen;//Methoden der Superklasse holen
+            //this.Bremsen = super.Bremsen;
                 //wenn aktiv, dann wird die Methode der Subklasse (s.u.) ignoriert
             }//Ende constructor
             //Methode Bremsen der Subklasse überschreibt super.Bremsen()??
             Bremsen(){
                 console.log("Subklasse Methode Bremsen von " +this.marke)
             }
+        }
 
-
-
+        //Zweirad: 9.5.3 Delegieren statt Vererben: Wrapping/Komposition
+        /*
+        das erzeugte Objekt ist keine Instanz von KFZ
+        let Harley = new KRAD()
+        Harley instanceof KFZ
+         */
+        class KRAD{
+            constructor(radzahl) {
+                this.krad = new KFZ(marke="Puch","black",0,4);//Delegieren statt Vererben: Wrapping/Komposition
+                this.radzahl = radzahl || 2;
+            }
         }
 KFZ.prototype.setGang = (step) => {console.log(`Gang ${step} einlegen!`); this.Gang = step}
 PKW.prototype.Radio = (sender)=>{console.log(sender)}
