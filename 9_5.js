@@ -61,7 +61,7 @@
                 configurable:false
                 });
 
-            this.Bremsen2 = super.Bremsen;//Methoden der Superklasse holen
+            //this.Bremsen2 = super.Bremsen;//Methoden der Superklasse holen
             //this.Bremsen = super.Bremsen;
                 //wenn aktiv, dann wird die Methode der Subklasse (s.u.) ignoriert
             }//Ende constructor
@@ -69,6 +69,7 @@
             Bremsen(){
                 console.log("Subklasse Methode Bremsen von " +this.marke)
             }
+            Bremsen2(){super.Bremsen();}
         }
 
         //Zweirad: 9.5.3 Delegieren statt Vererben: Wrapping/Komposition
@@ -76,10 +77,13 @@
         das erzeugte Objekt ist keine Instanz von KFZ
         let Harley = new KRAD()
         Harley instanceof KFZ
+        Rixe.krad.Bremsen() -> Delegieren an das Objekt krad von Rixe, das Instanz von KFZ ist: Rixe.krad instanceof KFZ == true
+        ABER Rixe instanceof KFZ == FALSE
          */
         class KRAD{
-            constructor(radzahl) {
-                this.krad = new KFZ(marke="Puch","black",0,4);//Delegieren statt Vererben: Wrapping/Komposition
+            constructor(radzahl,marke,color,doors,step) {
+                this.krad = new KFZ(marke,color,doors,step);//Delegieren statt Vererben: Wrapping/Komposition
+                //this.krad = new KFZ(marke="Puch","black",0,4);//Delegieren statt Vererben: Wrapping/Komposition
                 this.radzahl = radzahl || 2;
             }
         }
