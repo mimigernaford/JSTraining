@@ -6,7 +6,7 @@
 Javascript (ES2020)
 © Michael Dütting 2022
 created: 2022-09-28
-last modified: 2022-09-29
+last modified: 2022-10-20
  */
 'use strict';
 //CLASS
@@ -96,7 +96,7 @@ class EPHEM{
     }//constructorEND
     //methods--------------------------------------------------------------------------------
 
-    setJulianischesDatumJd(mantime=Date.now()){
+    setJulianischesDatumJd(mantime= Date.now()){
         this.manDateData=(typeof mantime != "number")?mantime.split(","):null;
         this.JULIANISCHESDATUM.mantime  = (this.manDateData == null)?mantime:new Date(...this.manDateData).getTime();//unixtime now
         this.JULIANISCHESDATUM.JD       = this.JULIANISCHESDATUM.mantime /86400000 + 2440587.5;
