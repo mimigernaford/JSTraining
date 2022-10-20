@@ -84,9 +84,6 @@ class EPHEM{
                                 JD          :null,
                                 normal      :null,
                                 manDateData :null,
-                                //JD      :(()=>{return (new Date().getTime() /86400000) + 2440587.5})(), //now | new Date("1978,1,12,23,35,0")
-                                jd1970      :2440587.5, //1.1.1970 00:00:00
-                                daymics     :86400000,
                                 wert        :0,
                             }
     //helper functions
@@ -98,30 +95,14 @@ class EPHEM{
 
     }//constructorEND
     //methods--------------------------------------------------------------------------------
+
     setJulianischesDatumJd(mantime=Date.now()){
-
-        this.JULIANISCHESDATUM.mantime = mantime;//unixtime now
-        console.log("start " +typeof mantime);
-            if(typeof this.JULIANISCHESDATUM.mantime == "number"){
-                console.log(this.JULIANISCHESDATUM.mantime);
-                console.log(typeof mantime);
-                this.JULIANISCHESDATUM.JD       = this.JULIANISCHESDATUM.mantime /86400000 + 2440587.5;
-
-
-                this.JULIANISCHESDATUM.normal   = (()=>{return new Date()})();
-                this.JULIANISCHESDATUM.dateArr  = (()=>{return new Date().toString().split(" ")})();
-                this.JULIANISCHESDATUM.dateArrL = (()=>{return new Date().toLocaleString().split(" ")})();
-            }
-            else{
-                //console.log(this.JULIANISCHESDATUM.mantime +" ERROR !!!");
-                this.manDateData = this.JULIANISCHESDATUM.mantime.split(",");
-                console.log(...this.manDateData);
-                this.JULIANISCHESDATUM.JD       = new Date(...this.manDateData).getTime() /86400000 + 2440587.5
-                this.JULIANISCHESDATUM.normal   = (()=>{return new Date(...this.manDateData)})();
-                this.JULIANISCHESDATUM.dateArr  = (()=>{return new Date(...this.manDateData).toString().split(" ")})();
-                this.JULIANISCHESDATUM.dateArrL = (()=>{return new Date(...this.manDateData).toLocaleString().split(" ")})();
-            }
-
+        this.manDateData=(typeof mantime != "number")?mantime.split(","):null;
+        this.JULIANISCHESDATUM.mantime  = (this.manDateData == null)?mantime:new Date(...this.manDateData).getTime();//unixtime now
+        this.JULIANISCHESDATUM.JD       = this.JULIANISCHESDATUM.mantime /86400000 + 2440587.5;
+        this.JULIANISCHESDATUM.normal   = (this.manDateData == null)?(()=>{return new Date()})():(()=>{return new Date(...this.manDateData)})();
+        this.JULIANISCHESDATUM.dateArr  = (this.manDateData == null)?(()=>{return new Date().toString().split(" ")})():(()=>{return new Date(...this.manDateData).toString().split(" ")})();
+        this.JULIANISCHESDATUM.dateArrL = (this.manDateData == null)?(()=>{return new Date().toLocaleString().split(" ")})():(()=>{return new Date(...this.manDateData).toLocaleString().split(" ")})();
     }
 
 
@@ -147,6 +128,11 @@ class EPHEM{
         ]);
     }
     //output---------------------------------------------------------------------------------
+    Init(mantime){
+        //mantime = "1978,1,12,23,35,0"
+        this.setJulianischesDatumJd(mantime);
+        this.OutputBrowser();
+    }
     //in node.js cli
     Output(){
         console.log(`Date = ${this.JULIANISCHESDATUM.dateArrL[0]}  ${this.JULIANISCHESDATUM.dateArrL[1]}\nJulian Date now = ${this.JULIANISCHESDATUM.JD}`);
@@ -187,10 +173,7 @@ let JDnow = new EPHEM();
 try{
     //some browser
     window.onload = () => {
-        JDnow.setJulianischesDatumJd("1978,1,12,23,35,0");
-       //JDnow.setJulianischesDatumJd();
-        JDnow.OutputBrowser();
-      //  console.log(JDnow.solarsystem.mars);
+JDnow.Init()
     }
 }
 catch(err){
