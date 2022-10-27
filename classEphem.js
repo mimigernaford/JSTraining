@@ -6,7 +6,7 @@
 Javascript (ES2020)
 © Michael Dütting 2022
 created: 2022-09-28
-last modified: 2022-10-26
+last modified: 2022-10-27
  */
 'use strict';
 //CLASS
@@ -14,16 +14,14 @@ class EPHEM{
 //constructor--------------------------------------------------------------------------------
     constructor(){
     //data
-
     //solarsystem----------------------------------------------------------------------------
-
-    //	//                  Periheldatum,Inklination, Knotenlänge,  Perihel,   mittlereAnomalie,   Exzentrizitaet, mittlereBewegung, grosseHalbachse,  Name
-        //                  perihelDate  inclination ascendingNode  perihel    meanAnomaly         eccentricity,   meanVelocity       SemiMajorAxis
-    // ErdeE = new PLANET_E(    47893,        0,          0,       1.7936477,  6.2330541,          0.0167134,      1.7202111e-2,         1.0,          "Erde");
-    // MarsE = new PLANET_E(    47892.7,  0.0322837, 0.8635947,    5.8621241,  4.6275694,           0.0933958,      9.146107e-3,        1.523691,       "Mars")
     this.solarsystem        = {
-                                Sonne               :{},
-                                Mond                :{},
+                                Sonne               :{
+                                    name            :"Sonne"
+                                },
+                                Mond                :{
+                                    name            :"Mond"
+                                },
                                 mercury             :{
                                     perihelDate     :47893,
                                     inclination     :0.1222525,
@@ -147,32 +145,41 @@ class EPHEM{
     }
     //calc-----------------------------------------------------------------------------------
     /* =================================================================================== */
-    /* 					calc Right ascension sun             							   */
+    /* 					               calc Sun             							   */
     Helios(){
         let Datum 				        = this.JULIANISCHESDATUM.JD - 2447891.5;
+        let AE 					        = 149598500;
         let omega1 				        = 279.403303 * this.altgrad;
         let omega2 				        = 282.768422 * this.altgrad;
-        //Planet();
-        let AE 					        = 149598500;
         let mittlereSonne 		        = 360*this.altgrad/365.242191*Datum+omega1-omega2;
-        //var omega3				    = mittlereSonne+360*this.altgrad/Math.PI*Erde.Exzentrizitaet*Math.sin(mittlereSonne);
         let omega3				        = mittlereSonne+360*this.altgrad/Math.PI*this.solarsystem.earth.eccentricity * Math.sin(mittlereSonne);
+        let RektaszensionStunde;
+        let RektaszensionMinute;
         this.solarsystem.Sonne.laenge	= this.Pi2(omega3+omega2);
         this.solarsystem.Sonne.breite	= 0;
         this.solarsystem.Sonne.Anomalie = mittlereSonne;
         this.TransformKoords();//Sonne = default
+        //coordinates-------------------------------------------------
+        //Right ascension
         this.solarsystem.Sonne.RA 		= this.solarsystem.Sonne.RA * ((180/Math.PI)/15);
         let raminute 			        = (this.solarsystem.Sonne.RA - Math.floor(this.solarsystem.Sonne.RA))*60;
-        let RektaszensionStunde;
-        let RektaszensionMinute;
-        if(this.solarsystem.Sonne.RA < 0)
-        {RektaszensionStunde = Math.ceil(this.solarsystem.Sonne.RA);}
-        else
-        {RektaszensionStunde = Math.floor(this.solarsystem.Sonne.RA);}
-        if(raminute >= 59.5)
-        {RektaszensionStunde++;raminute -= 60;}
-        RektaszensionMinute 	= Math.round(raminute);
-        this.solarsystem.Sonne.Koordinaten		= RektaszensionStunde + "_" + RektaszensionMinute;
+        RektaszensionStunde             = (this.solarsystem.Sonne.RA < 0)?Math.ceil(this.solarsystem.Sonne.RA):Math.floor(this.solarsystem.Sonne.RA);
+        (raminute >= 59.5)?(()=>{RektaszensionStunde++;raminute -= 60;})():null;
+        RektaszensionMinute 	        = Math.round(raminute);
+        //--------------------------------------------------------------
+        //Declination
+        let solDKL                      = this.solarsystem.Sonne.DK*(180/Math.PI); //to degrees [float]
+        let solDKLsign                  = (solDKL>0)?"+":"-";//string sign
+        let solDKLunsign                = (solDKL<0)?solDKL*-1:solDKL;//degrees [float] unsign
+        let solDKLString_1              = (parseInt(solDKLunsign)<10 || parseInt(solDKLunsign) == 0)?"0"+parseInt(solDKLunsign):parseInt(solDKLunsign);
+        //minutes
+        let solDKLmin= parseInt((solDKLunsign - Math.floor(solDKLunsign))*60);//[integer] minutes
+        let solDKMString_1 = (solDKLmin<10 || solDKLmin == 0)?"0"+solDKLmin:solDKLmin;
+        //---------------------------------------------------------------
+        //computed
+        this.solarsystem.Sonne.Rektaszension    = `${RektaszensionStunde} h  ${RektaszensionMinute} m`;
+        this.solarsystem.Sonne.Deklination      = `${solDKLsign}${solDKLString_1}${String.fromCharCode(176)} ${solDKMString_1}'`;
+
         //Sternbild(Sonne);
     }
     /* =================================================================================== */
@@ -186,9 +193,15 @@ class EPHEM{
         this.OutputBrowser();
     }
     //in node.js cli
+    cliRun(){
+        JDnow.setJulianischesDatumJd();
+        JDnow.Helios();
+        JDnow.Output();
+    }
     Output(){
         console.log(`Datum = ${this.JULIANISCHESDATUM.dateArrL[0]}  ${this.JULIANISCHESDATUM.dateArrL[1]}\naktuelles Julianisches Datum = ${this.JULIANISCHESDATUM.JD}`);
         console.log(`Tag = ${this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])}\nMonat = ${this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}`);
+        console.log(`Objekt: ${this.solarsystem.Sonne.name}\nRektaszension ${this.solarsystem.Sonne.Rektaszension} Deklination ${this.solarsystem.Sonne.Deklination}`);
     }
     //-- output in browser
     OutputBrowser(){
@@ -207,10 +220,29 @@ class EPHEM{
     }
 }
 //==============================start program=================================================
+let JDnow = new EPHEM();
+try{
+    //some browser
+    window.onload = () => {
+    JDnow.Init();
+    }
+}
+catch(err){
+    //no browser environment
+    JDnow.cliRun();
+}
+
+
+/*
+.load classEphem.js
+
+
+//let JDnow = new EPHEM(1978,1,12,23,35,0);
+//JDnow.setJulianischesDatumJd(yyyy,m,d,h,m,s);
 //let u = new EPHEM().Output();
 //for(let x in JDnow.solarsystem){console.log(JDnow.solarsystem[x].name)}
 //for(var i of Object.values(JDnow.solarsystem)){console.log(i.name)}
-/*
+
 var Arr_Z = []
 for(var t in JDnow.solarsystem){
 Arr_Z.push();
@@ -218,20 +250,11 @@ console.log(typeof t)
 }
 
 JDnow = new EPHEM("1978,1,12,23,35,0")
+
+
+JDnow.setJulianischesDatumJd("2022,9,25,13,25,0");
+//JDnow.setJulianischesDatumJd("1978,1,12,23,35,0");
+JDnow.Helios();
+JDnow.solarsystem.Sonne
+//console.log(JDnow.solarsystem.mars);
  */
-let JDnow = new EPHEM();
-//let JDnow = new EPHEM(1978,1,12,23,35,0);
-//JDnow.setJulianischesDatumJd(/*yyyy,m,d,h,m,s*/);
-try{
-    //some browser
-    window.onload = () => {
-JDnow.Init()
-    }
-}
-catch(err){
-    //no browser environment
-    JDnow.setJulianischesDatumJd();
-    //JDnow.setJulianischesDatumJd("1978,1,12,23,35,0");
-    console.log(JDnow.Output());
-    console.log(JDnow.solarsystem.mars);
-}
