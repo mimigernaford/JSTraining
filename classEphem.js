@@ -14,6 +14,7 @@ class EPHEM{
 //constructor--------------------------------------------------------------------------------
     constructor(){
     //data
+
     //solarsystem----------------------------------------------------------------------------
     this.solarsystem        = {
                                 Sonne               :{
@@ -87,8 +88,29 @@ class EPHEM{
                                     meanVelocity    :5.831913e-4,
                                     semiMajorAxis   :9.547464,
                                     name            :"Saturn"
+                                },
+                                uranus 	            :{
+                                    perihelDate     :46600.5,
+                                    inclination     :0.0134931,
+                                    ascendingNode   :1.2975635,
+                                    perihel         :3.0400461,
+                                    meanAnomaly     :1.414612,
+                                    eccentricity    :0.045874,
+                                    meanVelocity    :2.03741e-4,
+                                    semiMajorAxis   :19.246083,
+                                    name            :"Uranus"
+                                },
+                                neptun              : {
+                                   perihelDate      :46630.0,
+                                   inclination      :0.0309482,
+                                   ascendingNode    :2.2999061,
+                                   perihel          :0.2371241,
+                                   meanAnomaly      :4.5683278,
+                                   eccentricity     :0.008449,
+                                   meanVelocity     :1.036272e-4,
+                                   semiMajorAxis    :30.205013,
+                                   name             :"Neptun"
                                 }
-
                             }
     //---------------------------------------------------------------------------------------
     this.JULIANISCHESDATUM  = {
@@ -102,8 +124,6 @@ class EPHEM{
     this.Pi2 	            = (x)       => {return this.Modify(x,2*Math.PI);}
     this.Positiv            = (f)       => {return (f<0)?-1:f}
     this.altgrad 	        = Math.PI / 180;//DEG
-
-
     }//constructorEND
     /* =================================================================================== */
     //class variables------------------------------------------------------------------------
@@ -122,6 +142,16 @@ class EPHEM{
             ["Oct","Oktober"],  ["Nov","November"], ["Dec","Dezember"]
         ]);
     }
+    get Constellation(){
+        return new Map([
+            ["Ari",["Widder",28,51,"aries","Aries"]],                                           ["Tau",["Stier",52,90,"bull","Taurus"]],
+            ["Gem",["Zwillinge",91,120,"twins","Gemini"]],                                      ["Cnc",["Krebs",121,138,"cancer","Cancer"]],
+            ["Leo",["L"+String.fromCharCode(246)+"we",139,175,"lion","Leo"]],             ["Vir",["Jungfrau",176,215,"virgin","Virgo"]],
+            ["Lib",["Waage",216,238,"balance","Libra"]],                                        ["Sco",["Skorpion",239,246,"scorpio","Scorpius"]],
+            ["Sgr",["Sch"+String.fromCharCode(252)+"tze",267,302,"archer","sagittarius"]],["Cap",["Steinbock",303,329,"capricorn","Capricornus"]],
+            ["Oph",["Schlangentr"+String.fromCharCode(228)+"ger",247,266,"ophiuchus","Ophiuchus"]]
+        ]);
+    }
     //methods--------------------------------------------------------------------------------
     /* 				Calc Julian Date 12:00 MEZ				                               */
     setJulianischesDatumJd(mantime= Date.now()){
@@ -132,6 +162,15 @@ class EPHEM{
         this.JULIANISCHESDATUM.dateArr  = (this.manDateData == null)?(()=>{return new Date().toString().split(" ")})():(()=>{return new Date(...this.manDateData).toString().split(" ")})();
         this.JULIANISCHESDATUM.dateArrL = (this.manDateData == null)?(()=>{return new Date().toLocaleString().split(" ")})():(()=>{return new Date(...this.manDateData).toLocaleString().split(" ")})();
     }
+    //---------------------------------------------------------------------------------------
+    /*              Calc constellation                                                     */
+    calcCon(solarsystemObject){
+        solarsystemObject.con = "Psc";
+        this.Constellation.forEach((entries,key,values)=>{
+        solarsystemObject.con =  (entries[1] <= solarsystemObject.RA*15 && solarsystemObject.RA*15 <= entries[2])?this.Constellation.get(key):solarsystemObject.con;
+        });
+    }
+    //---------------------------------------------------------------------------------------
     /* 	      transform ecliptic to equatorial coordinates for Helios() Sonne = default    */
     TransformKoords(solarsystemObject = this.solarsystem.Sonne){
         let Epoche 		                = (this.JULIANISCHESDATUM.JD - 2451545.0) / 36525;
@@ -158,7 +197,7 @@ class EPHEM{
         this.solarsystem.Sonne.laenge	= this.Pi2(omega3+omega2);
         this.solarsystem.Sonne.breite	= 0;
         this.solarsystem.Sonne.Anomalie = mittlereSonne;
-        this.TransformKoords();//Sonne = default
+        this.TransformKoords();                      //Sonne = default
         //coordinates-------------------------------------------------
         //Right ascension
         this.solarsystem.Sonne.RA 		= this.solarsystem.Sonne.RA * ((180/Math.PI)/15);
@@ -179,8 +218,7 @@ class EPHEM{
         //computed
         this.solarsystem.Sonne.Rektaszension    = `${RektaszensionStunde} h  ${RektaszensionMinute} m`;
         this.solarsystem.Sonne.Deklination      = `${solDKLsign}${solDKLString_1}${String.fromCharCode(176)} ${solDKMString_1}'`;
-
-        //Sternbild(Sonne);
+        this.calcCon(this.solarsystem.Sonne);
     }
     /* =================================================================================== */
 
@@ -193,15 +231,17 @@ class EPHEM{
         this.OutputBrowser();
     }
     //in node.js cli
-    cliRun(){
-        JDnow.setJulianischesDatumJd();
+    cliRun(mantime = Date.now(),solarsystemObject = "Sonne"){
+        JDnow.setJulianischesDatumJd(mantime);
         JDnow.Helios();
+
         JDnow.Output();
     }
     Output(){
         console.log(`Datum = ${this.JULIANISCHESDATUM.dateArrL[0]}  ${this.JULIANISCHESDATUM.dateArrL[1]}\naktuelles Julianisches Datum = ${this.JULIANISCHESDATUM.JD}`);
         console.log(`Tag = ${this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])}\nMonat = ${this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}`);
         console.log(`Objekt: ${this.solarsystem.Sonne.name}\nRektaszension ${this.solarsystem.Sonne.Rektaszension} Deklination ${this.solarsystem.Sonne.Deklination}`);
+        console.log(`Sternbild: ${this.solarsystem.Sonne.con[0]} [${this.solarsystem.Sonne.con[4]}]`);
     }
     //-- output in browser
     OutputBrowser(){
@@ -235,7 +275,9 @@ catch(err){
 
 /*
 .load classEphem.js
-
+JDnow.cliRun()
+JDnow.cliRun("1978,1,12,0,0,0")
+JDnow.cliRun("1966,7,18,23,35,0")
 
 //let JDnow = new EPHEM(1978,1,12,23,35,0);
 //JDnow.setJulianischesDatumJd(yyyy,m,d,h,m,s);
