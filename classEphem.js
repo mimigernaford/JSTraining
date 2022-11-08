@@ -6,7 +6,7 @@
 Javascript (ES2020)
 © Michael Dütting 2022
 created: 2022-09-28
-last modified: 2022-11-02
+last modified: 2022-11-08
  */
 'use strict';
 //CLASS
@@ -17,6 +17,9 @@ class EPHEM{
 
     //solarsystem----------------------------------------------------------------------------
     this.solarsystem        = {
+                                selectedObject      :{
+                                    name            :null
+                                },
                                 Sonne               :{
                                     name            :"Sonne"
                                 },
@@ -221,9 +224,9 @@ class EPHEM{
         this.calcCon(this.solarsystem.Sonne);
     }
     /* =================================================================================== */
+    Luna(){
 
-
-
+    }
     //output---------------------------------------------------------------------------------
     Init(mantime){
         //mantime = "1978,1,12,23,35,0"
@@ -231,13 +234,15 @@ class EPHEM{
         this.OutputBrowser();
     }
     //in node.js cli
-    cliRun(mantime = Date.now(),solarsystemObject = "Sonne"){
-        JDnow.setJulianischesDatumJd(mantime);
-        JDnow.Helios();
-
+    //kein Objekt, dann Sonne; kein Datum, dann heute
+    cliRun(solarsystemObject = "Sonne",mantime = Date.now()){
+        JDnow.setJulianischesDatumJd(mantime); //Datum der Berechnung, default heute s.o.
+        JDnow.Helios();//Position der Sonne
+        JDnow.solarsystem.selectedObject = JDnow.solarsystem[solarsystemObject];//das ausgewählte Objekt, default Sonne s.o.
         JDnow.Output();
     }
     Output(){
+        //nur Test mit Sonne
         console.log(`Datum = ${this.JULIANISCHESDATUM.dateArrL[0]}  ${this.JULIANISCHESDATUM.dateArrL[1]}\naktuelles Julianisches Datum = ${this.JULIANISCHESDATUM.JD}`);
         console.log(`Tag = ${this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])}\nMonat = ${this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}`);
         console.log(`Objekt: ${this.solarsystem.Sonne.name}\nRektaszension ${this.solarsystem.Sonne.Rektaszension} Deklination ${this.solarsystem.Sonne.Deklination}`);
