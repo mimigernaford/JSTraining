@@ -26,7 +26,7 @@ class EPHEM{
                                 Mond                :{
                                     name            :"Mond"
                                 },
-                                mercury             :{
+                                Mercury             :{
                                     perihelDate     :47893,
                                     inclination     :0.1222525,
                                     ascendingNode   :0.84147123,
@@ -37,7 +37,7 @@ class EPHEM{
                                     semiMajorAxis   :0.387099,
                                     name            :"Merkur"
                                 },
-                                venus               :{
+                                Venus               :{
                                     perihelDate     :47893,
                                     inclination     :0.0592457,
                                     ascendingNode   :1.3367448,
@@ -48,7 +48,7 @@ class EPHEM{
                                     semiMajorAxis   :0.723332,
                                     name            :"Venus"
                                 },
-                                earth               :{
+                                Erde               :{
                                     perihelDate     :47893,
                                     inclination     :0,
                                     ascendingNode   :0,
@@ -59,7 +59,7 @@ class EPHEM{
                                     semiMajorAxis   :1.0,
                                     name            :"Erde"
                                 },
-                                mars                :{
+                                Mars                :{
                                     perihelDate     :47892.7,
                                     inclination     :0.0322837,
                                     ascendingNode   :0.8635947,
@@ -70,7 +70,7 @@ class EPHEM{
                                     semiMajorAxis   :1.523691,
                                     name            :"Mars"
                                 },
-                                jupiter             :{
+                                Jupiter             :{
                                     perihelDate     :46600.5,
                                     inclination     :0.0228027,
                                     ascendingNode   :1.7549514,
@@ -81,7 +81,7 @@ class EPHEM{
                                     semiMajorAxis   :5.202629,
                                     name            :"Jupiter"
                                 },
-                                saturn              :{
+                                Saturn              :{
                                     perihelDate     :46600.5,
                                     inclination     :0.0434238,
                                     ascendingNode   :1.9835651,
@@ -92,7 +92,7 @@ class EPHEM{
                                     semiMajorAxis   :9.547464,
                                     name            :"Saturn"
                                 },
-                                uranus 	            :{
+                                Uranus 	            :{
                                     perihelDate     :46600.5,
                                     inclination     :0.0134931,
                                     ascendingNode   :1.2975635,
@@ -103,7 +103,7 @@ class EPHEM{
                                     semiMajorAxis   :19.246083,
                                     name            :"Uranus"
                                 },
-                                neptun              : {
+                                Neptun              : {
                                    perihelDate      :46630.0,
                                    inclination      :0.0309482,
                                    ascendingNode    :2.2999061,
@@ -194,7 +194,7 @@ class EPHEM{
         let omega1 				        = 279.403303 * this.altgrad;
         let omega2 				        = 282.768422 * this.altgrad;
         let mittlereSonne 		        = 360*this.altgrad/365.242191*Datum+omega1-omega2;
-        let omega3				        = mittlereSonne+360*this.altgrad/Math.PI*this.solarsystem.earth.eccentricity * Math.sin(mittlereSonne);
+        let omega3				        = mittlereSonne+360*this.altgrad/Math.PI*this.solarsystem.Erde.eccentricity * Math.sin(mittlereSonne);
         let RektaszensionStunde;
         let RektaszensionMinute;
         this.solarsystem.Sonne.laenge	= this.Pi2(omega3+omega2);
@@ -224,8 +224,14 @@ class EPHEM{
         this.calcCon(this.solarsystem.Sonne);
     }
     /* =================================================================================== */
+    /* 					               calc Moon             							   */
     Luna(){
-
+    console.log(this.solarsystem.selectedObject.name);
+    }
+    /* =================================================================================== */
+    /* 					               calc Planets           							   */
+    Planet(){
+    console.log(this.solarsystem.selectedObject.name);
     }
     //output---------------------------------------------------------------------------------
     Init(mantime){
@@ -239,6 +245,7 @@ class EPHEM{
         JDnow.setJulianischesDatumJd(mantime); //Datum der Berechnung, default heute s.o.
         JDnow.Helios();//Position der Sonne
         JDnow.solarsystem.selectedObject = JDnow.solarsystem[solarsystemObject];//das ausgewählte Objekt, default Sonne s.o.
+        (solarsystemObject == "Mond")?this.Luna():this.Planet();
         JDnow.Output();
     }
     Output(){
