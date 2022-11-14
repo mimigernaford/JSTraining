@@ -132,7 +132,7 @@ class EPHEM{
     //class variables------------------------------------------------------------------------
     get GermDay(){
         return new Map([
-            ["Mo","Montag"],    ["Tue","Dienstag"],
+            ["Mon","Montag"],    ["Tue","Dienstag"],
             ["Wed","Mittwoch"], ["Thu","Donnerstag"],
             ["Fri","Freitag"],  ["Sat","Samstag"],
             ["Sun","Sonntag"]
@@ -215,8 +215,8 @@ class EPHEM{
         let solDKLunsign                = (solDKL<0)?solDKL*-1:solDKL;//degrees [float] unsign
         let solDKLString_1              = (parseInt(solDKLunsign)<10 || parseInt(solDKLunsign) == 0)?"0"+parseInt(solDKLunsign):parseInt(solDKLunsign);
         //minutes
-        let solDKLmin= parseInt((solDKLunsign - Math.floor(solDKLunsign))*60);//[integer] minutes
-        let solDKMString_1 = (solDKLmin<10 || solDKLmin == 0)?"0"+solDKLmin:solDKLmin;
+        let solDKLmin                   = parseInt((solDKLunsign - Math.floor(solDKLunsign))*60);//[integer] minutes
+        let solDKMString_1              = (solDKLmin<10 || solDKLmin == 0)?"0"+solDKLmin:solDKLmin;
         //---------------------------------------------------------------
         //computed
         this.solarsystem.Sonne.Rektaszension    = `${RektaszensionStunde} h  ${RektaszensionMinute} m`;
@@ -237,31 +237,35 @@ class EPHEM{
     Init(mantime){
         //mantime = "1978,1,12,23,35,0"
         this.setJulianischesDatumJd(mantime);
+        this.solarsystem.selectedObject = this.solarsystem["Sonne"];
         this.OutputBrowser();
     }
     //in node.js cli
     //kein Objekt, dann Sonne; kein Datum, dann heute
     cliRun(solarsystemObject = "Sonne",mantime = Date.now()){
-        JDnow.setJulianischesDatumJd(mantime); //Datum der Berechnung, default heute s.o.
-        JDnow.Helios();//Position der Sonne
-        JDnow.solarsystem.selectedObject = JDnow.solarsystem[solarsystemObject];//das ausgewählte Objekt, default Sonne s.o.
-        (solarsystemObject == "Mond")?this.Luna():this.Planet();
-        JDnow.Output();
+        this.setJulianischesDatumJd(mantime); //Datum der Berechnung, default heute s.o.
+        this.solarsystem.selectedObject = this.solarsystem[solarsystemObject];//das ausgewählte Objekt, default Sonne s.o.
+        (solarsystemObject == "Mond")?this.Luna():(solarsystemObject != "Sonne")?this.Planet():this.Helios();
+        this.Output();
     }
     Output(){
-        //nur Test mit Sonne
-        console.log(`Datum = ${this.JULIANISCHESDATUM.dateArrL[0]}  ${this.JULIANISCHESDATUM.dateArrL[1]}\naktuelles Julianisches Datum = ${this.JULIANISCHESDATUM.JD}`);
+
+        console.log(`Datum = ${this.JULIANISCHESDATUM.dateArrL[0]} ${this.JULIANISCHESDATUM.dateArrL[1]}\naktuelles Julianisches Datum = ${this.JULIANISCHESDATUM.JD}`);
         console.log(`Tag = ${this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])}\nMonat = ${this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}`);
-        console.log(`Objekt: ${this.solarsystem.Sonne.name}\nRektaszension ${this.solarsystem.Sonne.Rektaszension} Deklination ${this.solarsystem.Sonne.Deklination}`);
-        console.log(`Sternbild: ${this.solarsystem.Sonne.con[0]} [${this.solarsystem.Sonne.con[4]}]`);
+        console.log(`Tagnorm = ${this.JULIANISCHESDATUM.normal}`);
+        console.log(`Objekt: ${this.solarsystem.selectedObject.name}\nRektaszension ${this.solarsystem.selectedObject.Rektaszension} Deklination ${this.solarsystem.selectedObject.Deklination}`);
+        console.log(`Sternbild: ${this.solarsystem.selectedObject.con[0]} [${this.solarsystem.selectedObject.con[4]}]`);
+
     }
     //-- output in browser
     OutputBrowser(){
+        console.log(this.JULIANISCHESDATUM.dateArr[0]);
         let htmlMap = new Map([
             ["h1",{label:"Monat = ",data:this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}],
             ["h2",{label:"Zeit = ",data:this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])+", "+this.JULIANISCHESDATUM.dateArrL[0] +" "+ this.JULIANISCHESDATUM.dateArrL[1] }],
             ["p",{label:"Julianisches Datum = ",data:this.JULIANISCHESDATUM.JD}],
-            ["div",{label:"Normdatum = ",data:this.JULIANISCHESDATUM.normal}]
+            ["div",{label:"Normdatum = ",data:this.JULIANISCHESDATUM.normal}],
+            ["div",{label:"Objekt = ",data:this.solarsystem.selectedObject.name}],
         ]);
         htmlMap.forEach((val,key)=>{
             let html            = document.createElement(key);
