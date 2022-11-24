@@ -158,14 +158,23 @@ class EPHEM{
     //methods--------------------------------------------------------------------------------
     /* 				Calc Julian Date 12:00 MEZ				                               */
     setJulianischesDatumJd(mantime= Date.now()){
-        this.manDateData=(typeof mantime != "number")?mantime.split(","):null;
+        this.manDateData                = (typeof mantime != "number")?mantime.split(","):this.manDateData;
         this.JULIANISCHESDATUM.mantime  = (this.manDateData == null)?mantime:new Date(...this.manDateData).getTime();//unixtime now
         this.JULIANISCHESDATUM.JD       = this.JULIANISCHESDATUM.mantime /86400000 + 2440587.5;
         this.JULIANISCHESDATUM.normal   = (this.manDateData == null)?(()=>{return new Date()})():(()=>{return new Date(...this.manDateData)})();
         this.JULIANISCHESDATUM.dateArr  = (this.manDateData == null)?(()=>{return new Date().toString().split(" ")})():(()=>{return new Date(...this.manDateData).toString().split(" ")})();
         this.JULIANISCHESDATUM.dateArrL = (this.manDateData == null)?(()=>{return new Date().toLocaleString().split(" ")})():(()=>{return new Date(...this.manDateData).toLocaleString().split(" ")})();
+        (this.manDateData != null)?this.startTester(this.manDateData):void(0);
     }
     //---------------------------------------------------------------------------------------
+    startTester(...mandatedata){
+        console.log(`startTester (arguments[0] = ...mandatedata -> is_array?): ${DUETT.is_array(mandatedata)}`);
+        for(var x in arguments[0]){
+            console.log(`startTester (): ${x} ->${typeof arguments[0][x]} wert -> ${arguments[0][x]}`);
+            (typeof arguments[0][x] != "function")?
+            console.log(`startTester -> wert -> ${arguments[0][x]}`):null;
+        }
+    }
     /*              Calc constellation                                                     */
     calcCon(solarsystemObject){
         solarsystemObject.con = "Psc";
