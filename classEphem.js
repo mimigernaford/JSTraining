@@ -287,10 +287,10 @@ class EPHEM{
     }
 }
 //EPHEM.extend(DUETT); //dann nicht an die Instanz vererbt
-//EPHEM.prototype.x = DUETT;//old style
+//EPHEM.prototype.x = DUETT;// an die Instanz vererbt aber old style
 //==============================start program=================================================
 let JDnow = new EPHEM();
-//JDnow.extend(DUETT);//zu fuss
+//JDnow.extend(DUETT);//zu fuss nur auf die Instanz
 try{
     //some browser
     window.onload = () => {
