@@ -127,6 +127,7 @@ class EPHEM{
     this.Pi2 	            = (x)       => {return this.Modify(x,2*Math.PI);}
     this.Positiv            = (f)       => {return (f<0)?-1:f}
     this.altgrad 	        = Math.PI / 180;//DEG
+        this.extend(DUETT); //extend im constructor vererbt Erweiterungen auf die Instanzen
     }//constructorEND
     /* =================================================================================== */
     //class variables------------------------------------------------------------------------
@@ -170,9 +171,10 @@ class EPHEM{
     startTester(...mandatedata){
         console.log(`startTester (arguments[0] = ...mandatedata -> is_array?): ${DUETT.is_array(mandatedata)}`);
         for(var x in arguments[0]){
-            console.log(`startTester (): ${x} ->${typeof arguments[0][x]} wert -> ${arguments[0][x]}`);
             (typeof arguments[0][x] != "function")?
-            console.log(`startTester -> wert -> ${arguments[0][x]}`):null;
+            console.log(`startTester1 (): ${x} ->${typeof arguments[0][x]} wert -> ${arguments[0][x]}`):null;
+            (typeof arguments[0][x] != "function")?
+            console.log(`startTester2 -> wert -> ${arguments[0][x]}`):null;
         }
     }
     /*              Calc constellation                                                     */
@@ -268,7 +270,7 @@ class EPHEM{
     }
     //-- output in browser
     OutputBrowser(){
-        console.log(this.JULIANISCHESDATUM.dateArr[0]);
+        console.log("dayname: "+ this.JULIANISCHESDATUM.dateArr[0]);
         let htmlMap = new Map([
             ["h1",{label:"Monat = ",data:this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}],
             ["h2",{label:"Zeit = ",data:this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])+", "+this.JULIANISCHESDATUM.dateArrL[0] +" "+ this.JULIANISCHESDATUM.dateArrL[1] }],
@@ -284,8 +286,11 @@ class EPHEM{
         });
     }
 }
+//EPHEM.extend(DUETT); //dann nicht an die Instanz vererbt
+//EPHEM.prototype.x = DUETT;//old style
 //==============================start program=================================================
 let JDnow = new EPHEM();
+//JDnow.extend(DUETT);//zu fuss
 try{
     //some browser
     window.onload = () => {

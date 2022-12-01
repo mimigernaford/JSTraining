@@ -1,3 +1,4 @@
+
 /*
 ################################
 #******************************#
@@ -59,12 +60,11 @@ rEle:function(e,nr = 0)
 		if(e != null)
 		{
 		e = (!e.responseText)
-			?(typeof(e) == "object")
-				?e
-				:(!document.getElementById(e))?document.getElementsByTagName(e)[nr]
+				?(typeof(e) == "object")
+					?e
+					:(!document.getElementById(e))?document.getElementsByTagName(e)[nr]:document.getElementById(e)
 			:document.getElementById(e.responseText);
-		//(!e)?void(0):e.parentNode.removeChild(e);
-		console.log(e);
+		(!e)?void(0):e.parentNode.removeChild(e);
 		}
 	},
 /******************************/
