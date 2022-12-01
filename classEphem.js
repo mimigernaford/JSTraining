@@ -6,7 +6,7 @@
 Javascript (ES2020)
 © Michael Dütting 2022
 created: 2022-09-28
-last modified: 2022-11-17
+last modified: 2022-12-01
  */
 'use strict';
 //CLASS
