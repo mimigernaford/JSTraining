@@ -10,11 +10,18 @@ last modified: 2022-12-01
  */
 'use strict';
 //CLASS
-class EPHEM{
-//constructor--------------------------------------------------------------------------------
+class TEST {
+    constructor() {
+        this.test = 1;
+    }
+}
+class EPHEM extends DLIB {
+//constructor =================================================================================== */
     constructor(){
     //data
-
+    super(); /* kann mit DUETT aus dlibV301 nicht funktionieren, weil DUETT kein Konstruktor ist
+            jetzt mit DLIB Vc01 ff. (Klasse)
+            */
     //solarsystem----------------------------------------------------------------------------
     this.solarsystem        = {
                                 selectedObject      :{
@@ -127,7 +134,9 @@ class EPHEM{
     this.Pi2 	            = (x)       => {return this.Modify(x,2*Math.PI);}
     this.Positiv            = (f)       => {return (f<0)?-1:f}
     this.altgrad 	        = Math.PI / 180;//DEG
-        this.extend(DUETT); //extend im constructor vererbt Erweiterungen auf die Instanzen
+    //    this.extend(DUETT); //extend (Methode von DUETT in dlib301.js) im constructor der Klasse EPHEM vererbt Erweiterungen auf die Instanzen
+        //DUETT ist KEINE KLASSE, sondern ein Literalobjekt, KEIN Konstruktor
+        //mit extend (Methode von DUETT in dlib301.js) können Klassen um Literalobjekte und ihre Methoden erweitert werden
     }//constructorEND
     /* =================================================================================== */
     //class variables------------------------------------------------------------------------
@@ -245,10 +254,11 @@ class EPHEM{
     console.log(this.solarsystem.selectedObject.name);
     }
     //output---------------------------------------------------------------------------------
-    Init(mantime){
+    Init(solarsystemObject = "Sonne",mantime){
         //mantime = "1978,1,12,23,35,0"
         this.setJulianischesDatumJd(mantime);
-        this.solarsystem.selectedObject = this.solarsystem["Sonne"];
+        this.solarsystem.selectedObject = this.solarsystem[solarsystemObject];
+        this.Helios()
         this.OutputBrowser();
     }
     //in node.js cli
@@ -270,19 +280,21 @@ class EPHEM{
     }
     //-- output in browser
     OutputBrowser(){
-        console.log("dayname: "+ this.JULIANISCHESDATUM.dateArr[0]);
-        let htmlMap = new Map([
+        //console.log("dayname: "+ this.JULIANISCHESDATUM.dateArr[0]);
+        let htmlArr = [
             ["h1",{label:"Monat = ",data:this.GermMon.get(this.JULIANISCHESDATUM.dateArr[1])}],
             ["h2",{label:"Zeit = ",data:this.GermDay.get(this.JULIANISCHESDATUM.dateArr[0])+", "+this.JULIANISCHESDATUM.dateArrL[0] +" "+ this.JULIANISCHESDATUM.dateArrL[1] }],
             ["p",{label:"Julianisches Datum = ",data:this.JULIANISCHESDATUM.JD}],
             ["div",{label:"Normdatum = ",data:this.JULIANISCHESDATUM.normal}],
             ["div",{label:"Objekt = ",data:this.solarsystem.selectedObject.name}],
-        ]);
-        htmlMap.forEach((val,key)=>{
-            let html            = document.createElement(key);
-            html.textContent    =  val.label + val.data;
+            ["div",{label:"Sternbild = ",data:this.solarsystem.selectedObject.con[0]}],
+            ["h3",{label:"Rektaszension = ",data:this.solarsystem.selectedObject.Rektaszension}],
+            ["h3",{label:"Deklination = ",data:this.solarsystem.selectedObject.Deklination}],
+        ];
+        htmlArr.forEach((key)=>{
+            var html            = document.createElement(key[0]);
+            html.textContent    =  key[1].label + key[1].data;
             document.getElementsByTagName("body")[0].appendChild(html);
-        console.log(val);
         });
     }
 }
@@ -290,7 +302,7 @@ class EPHEM{
 //EPHEM.prototype.x = DUETT;// an die Instanz vererbt aber old style
 //==============================start program=================================================
 let JDnow = new EPHEM();
-//JDnow.extend(DUETT);//zu fuss nur auf die Instanz
+//JDnow.extend(DUETT);// (extend = Methode von DUETT in dlib301.js) an dieser Stelle zu fuss nur auf die Instanz
 try{
     //some browser
     window.onload = () => {
