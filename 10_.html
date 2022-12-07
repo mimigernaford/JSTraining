@@ -6,13 +6,32 @@
     <script type="text/javascript">
         //<![CDATA[
         'use strict';
+        class ALPHA{
+            constructor(x="abc") {
+            this.X = x;
+            this.Aktionen = {
+                Methode_0:(p0=0)=>{
+                    console.log(`Parameter p0 der Methode_0 = ${p0}`);
+                    },
+                Methode_1:(p1=1)=>{
+                    console.log(`Parameter p1 der Methode_1 = ${p1}`)
+                    },
+                Methode_2:(p2=2)=>{
+                    console.log(`Parameter p2 der Methode_2 = ${this.X}`)
+                }
+                }
+           this.Container = {
+                Daten:["text",...x,12]
+                }
 
+            }//constructor
+        }
         // ]]>
     </script>
 </head>
 <body>
 <h1>O'Reilly ES2020</h1>
-<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 10 Module</h2>
-
+<h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 10 Module S. 267 f.</h2>
+<p>Module in ES6 anhand von "import" und "export"</p>
 </body>
 </html>
