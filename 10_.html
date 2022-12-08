@@ -6,25 +6,76 @@
     <script type="text/javascript">
         //<![CDATA[
         'use strict';
+
+        /*#########################################
+         ##             Klasse ALPHA            ##
+        #########################################*/
         class ALPHA{
             constructor(x="abc") {
-            this.X = x;
-            this.Aktionen = {
-                Methode_0:(p0=0)=>{
-                    console.log(`Parameter p0 der Methode_0 = ${p0}`);
+                this.X = x;
+                this.Aktionen = {
+                    Methode_0:(p0=0)=>{
+                        console.log(`Parameter p0 von ALPHA.Aktionen::Methode_0 = ${p0}`);
+                        },
+                    Methode_1:(p1=1)=>{
+                        console.log(`Parameter p1 von ALPHA.Aktionen::Methode_1 = ${p1}`)
+                        },
+                    Methode_2:(p2=2)=>{
+                        console.log(`Parameter p2 von ALPHA.Aktionen::Methode_2 = ${this.X}`)
+                         }
+                    }
+                this.Container = {
+                    Daten:["text von ALPHA",...x,12],
+                    get A(){return 1;},
+                    get F(){return (a,b)=>{return a+b};}
+                    }
+            }//constructor
+
+            ALPHAMethode(){
+                console.log("Meine Methode() in ALPHA");
+            }
+        }//class ALPHA
+
+
+        /*#########################################
+         ##             Klasse BETA             ##
+        #########################################*/
+        class BETA extends ALPHA{
+            constructor(x="def") {
+                super();
+                this.X = x;//überschreibt ALPHA.X
+                this.Aktionen = {
+                    Methode_0:(p0=0)=>{
+                        console.log(`Parameter p0 von BETA.Aktionen::Methode_0 = ${p0}`);
                     },
-                Methode_1:(p1=1)=>{
-                    console.log(`Parameter p1 der Methode_1 = ${p1}`)
+                    Methode_1:(p1=1)=>{
+                        console.log(`Parameter p1 von BETA.Aktionen::Methode_1 = ${p1}`)
                     },
-                Methode_2:(p2=2)=>{
-                    console.log(`Parameter p2 der Methode_2 = ${this.X}`)
+                    Methode_2:(p2=2)=>{
+                        console.log(`Parameter p2 von BETA.Aktionen::Methode_2 = ${this.X}`)
+                    },//überschreibt ALPHA.Aktionen
                 }
-                }
-           this.Container = {
-                Daten:["text",...x,12]
-                }
+                this.Container = {
+                    Daten:["text von BETA",...x,12]
+                }//überschreibt ALPHA.Container
+            this.Modul = new ALPHA();//macht ALPHA.Aktionen, X und Container wieder erreichbar
+
+            /*
+            Funktionen im body des constructors sind nur als "closures" möglich.
+             */
+            //selfstart !! eine Methode im Constructor!! darf nicht im super() Constructor (in ALPHA) stehen
+            //diese Konstruktion wird auch als Immediately Invokes Function Expressions (IIFE) bezeichnet
+            ((nix) => {
+                this.MeineMethode();
+            })(null);
+            //oder
+            (function test(){console.log("Text aus test()")})(); //analog zu selfstart mit dem Schlüsselwort "function"        //get() geht nicht
 
             }//constructor
+            //class-body
+            MeineMethode(){
+                console.log("Meine Methode() in BETA, Aufruf mit selfstart");
+            }
         }
         // ]]>
     </script>
