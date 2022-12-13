@@ -6,11 +6,11 @@
     <script type="text/javascript">
         //<![CDATA[
         'use strict';
-
+    //Umsetzung Beispiel MD
         /*#########################################
          ##             Klasse ALPHA            ##
         #########################################*/
-        class ALPHA{
+    class ALPHA{
             constructor(x="abc") {
                 this.X = x;
                 this.Aktionen = {
@@ -34,15 +34,15 @@
             ALPHAMethode(){
                 console.log("Meine Methode() in ALPHA");
             }
-        }//class ALPHA
+    }//class ALPHA
 
 
         /*#########################################
          ##             Klasse BETA             ##
         #########################################*/
-        class BETA extends ALPHA{
+    class BETA{
             constructor(x="def") {
-                super();
+              //  super();
                 this.X = x;//überschreibt ALPHA.X
                 this.Aktionen = {
                     Methode_0:(p0=0)=>{
@@ -58,7 +58,7 @@
                 this.Container = {
                     Daten:["text von BETA",...x,12]
                 }//überschreibt ALPHA.Container
-            this.Modul = new ALPHA();//macht ALPHA.Aktionen, X und Container wieder erreichbar
+            this.Modul = new ALPHA();//macht ALPHA.Aktionen, X und Container wieder erreichbar -> Delegieren statt Vererben
 
             /*
             Funktionen im body des constructors sind nur als "closures" möglich.
@@ -72,17 +72,46 @@
             (function test(){console.log("Text aus test()")})(); //analog zu selfstart mit dem Schlüsselwort "function"        //get() geht nicht
 
             }//constructor
-            //class-body
-            MeineMethode(){
-                console.log("Meine Methode() in BETA, Aufruf mit selfstart");
+        //class-body
+        MeineMethode(){
+            console.log("Meine Methode() in BETA, Aufruf mit selfstart, Programmname: " +this.X);
+        }
+    }
+
+    //start:
+        //let prg = new BETA("prg ist gestartet");
+    //Ende Beispiel MD
+    //#####################################################################
+    //Beispiel 10.1 Seite 269 (abgewandelt)
+    const Modul_A = (function(){
+        function eins(){console.log("funk-1")}
+        function zwei(){console.log("funk-2")}
+        const Data      = [1,2,3,4,5,6];
+        const xclass    = new BETA();
+        return class Modul_A{
+            constructor(){
+            this.Method_1   = eins;
+            this.Method_2   = zwei;
+            this.Daten      = Data;
+            this.innerModul = xclass;
+            this.tester     = new BETA();
             }
         }
-        // ]]>
+    }()); //selfstart
+    //let ABC = new Modul_A();
+
+
+    //#########################################################
+    //last change 2022-12-13
+    // ]]>
     </script>
 </head>
 <body>
 <h1>O'Reilly ES2020</h1>
 <h2>ES2020 O'Reilly Javascript 7. Aufl. Kap 10 Module S. 267 f.</h2>
 <p>Module in ES6 anhand von "import" und "export"</p>
+<ul>
+    <li>Erzeugen einer Instanz [ let A = new BETA() ] startet "function test()" und "MeineMethode" automatisch ohne onload</li>
+</ul>
 </body>
 </html>
