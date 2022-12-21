@@ -67,9 +67,9 @@
             //diese Konstruktion wird auch als Immediately Invokes Function Expressions (IIFE) bezeichnet
             ((nix) => {
                 this.MeineMethode();
-            })(null);
+            })(null); //Start durch Modul_A
             //oder
-            (function test(){console.log("Text aus test()")})(); //analog zu selfstart mit dem Schlüsselwort "function"        //get() geht nicht
+            (function test(){console.log("Zeile 72: Text aus test()")})(); //analog zu selfstart mit dem Schlüsselwort "function"        //get() geht nicht
 
             }//constructor
         //class-body
@@ -86,23 +86,33 @@
     const Modul_A = (function(){
         function eins(){console.log("funk-1")}
         function zwei(){console.log("funk-2")}
-        const Data      = [1,2,3,4,5,6];
-        const xclass    = new BETA();
+        const Data      = [1,2,3,4,5,6,"aus Data"];
+        const xclass    = new BETA();//startet "MeineMethode() in BETA"
         return class Modul_A{
             constructor(){
             this.Method_1   = eins;
             this.Method_2   = zwei;
             this.Daten      = Data;
             this.innerModul = xclass;
-            this.tester     = new BETA();
+            //this.tester     = new BETA();
+            this.tester     = new ALPHA();
             }
         }
     }()); //selfstart
-    //let ABC = new Modul_A();
+    /*
+    let ABC = new Modul_A();
+    ABC.tester.X  == ABC.innerModul.Modul.X |-->true
+     */
+    //#####################################################################
+    //Beispiel 10.1 Seite 269 (orig.)
+    const BitSet = (function(){
 
+        }
+    );
+    //Beispiel 10.1.1 Seite 270
 
     //#########################################################
-    //last change 2022-12-13
+    //last change 2022-12-20
     // ]]>
     </script>
 </head>
