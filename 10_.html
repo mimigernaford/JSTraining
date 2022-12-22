@@ -30,9 +30,13 @@
                     get F(){return (a,b)=>{return a+b};}
                     }
             }//constructor
-
+            //diese Methode wird bei Verwendung von extends vererbt
             ALPHAMethode(){
                 console.log("Meine Methode() in ALPHA");
+            }
+            ALPHAObjekt =  {
+                funktion:()=>{console.log("funktion von ALPHAObjekt")},
+                eigenschaft:"Eigenschaft des ALPHAObjektes"
             }
     }//class ALPHA
 
@@ -40,37 +44,40 @@
         /*#########################################
          ##             Klasse BETA             ##
         #########################################*/
-    class BETA{
+    //als Vererbung: class BETA extends ALPHA{
+        class BETA extends ALPHA{
             constructor(x="def") {
-              //  super();
+                super();//bei Vererbung mit "extends" zwingend, Inhalte des super-constructors werden dann nicht vererbt, nur die Methoden usw. die im Body der Superklasse stehen
                 this.X = x;//überschreibt ALPHA.X
                 this.Aktionen = {
-                    Methode_0:(p0=0)=>{
+                    Beta_Methode_0:(p0=0)=>{
                         console.log(`Parameter p0 von BETA.Aktionen::Methode_0 = ${p0}`);
                     },
-                    Methode_1:(p1=1)=>{
+                    Beta_Methode_1:(p1=1)=>{
                         console.log(`Parameter p1 von BETA.Aktionen::Methode_1 = ${p1}`)
                     },
-                    Methode_2:(p2=2)=>{
+                    Beta_Methode_2:(p2=2)=>{
                         console.log(`Parameter p2 von BETA.Aktionen::Methode_2 = ${this.X}`)
                     },//überschreibt ALPHA.Aktionen
                 }
                 this.Container = {
                     Daten:["text von BETA",...x,12]
                 }//überschreibt ALPHA.Container
-            this.Modul = new ALPHA();//macht ALPHA.Aktionen, X und Container wieder erreichbar -> Delegieren statt Vererben
+            //this.Modul = new ALPHA();//macht ALPHA.Aktionen, X und Container wieder erreichbar -> Delegieren statt Vererben
 
             /*
             Funktionen im body des constructors sind nur als "closures" möglich.
              */
             //selfstart !! eine Methode im Constructor!! darf nicht im super() Constructor (in ALPHA) stehen
             //diese Konstruktion wird auch als Immediately Invokes Function Expressions (IIFE) bezeichnet
+/*
+//auskommentieren, wenn Vererbung mit extends genutzt wird
             ((nix) => {
                 this.MeineMethode();
             })(null); //Start durch Modul_A
             //oder
             (function test(){console.log("Zeile 72: Text aus test()")})(); //analog zu selfstart mit dem Schlüsselwort "function"        //get() geht nicht
-
+*/
             }//constructor
         //class-body
         MeineMethode(){
@@ -87,21 +94,21 @@
         function eins(){console.log("funk-1")}
         function zwei(){console.log("funk-2")}
         const Data      = [1,2,3,4,5,6,"aus Data"];
-        const xclass    = new BETA();//startet "MeineMethode() in BETA"
+        //const alpha     = new ALPHA(); //in beta.Modul, s. BETA -> this.Modul = new ALPHA();
+        const beta      = new BETA();//startet "MeineMethode() in BETA"
         return class Modul_A{
             constructor(){
             this.Method_1   = eins;
             this.Method_2   = zwei;
             this.Daten      = Data;
-            this.innerModul = xclass;
-            //this.tester     = new BETA();
-            this.tester     = new ALPHA();
+            //this.alpha      = alpha;
+            this.beta       = beta;//enthält alpha in Modul
             }
         }
     }()); //selfstart
     /*
     let ABC = new Modul_A();
-    ABC.tester.X  == ABC.innerModul.Modul.X |-->true
+    ABC.beta.Modul ==
      */
     //#####################################################################
     //Beispiel 10.1 Seite 269 (orig.)
@@ -112,7 +119,7 @@
     //Beispiel 10.1.1 Seite 270
 
     //#########################################################
-    //last change 2022-12-20
+    //last change 2022-12-22
     // ]]>
     </script>
 </head>
