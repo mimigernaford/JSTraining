@@ -112,14 +112,26 @@
      */
     //#####################################################################
     //Beispiel 10.1 Seite 269 (orig.)
-    const BitSet = (function(){
-
+    //dies ist ein Beispiel für die Verwendung als Modul
+    const BitSet = (function() {
+        //die Funktionen hier sind private
+        function isValid(set, n) {console.log(set)}
+        function has(set, byte, bit) {console.log(set)}
+        const BITS = new Uint8Array([1, 2, 4, 8, 16, 32, 64, 128]);//?was ist das "Uint8Array"
+        const MASKS = new Uint8Array([~1, ~2, ~4, ~8, ~16, ~16, ~32, ~128]);//?was ist das "Uint8Array" und ~2 Fehler...
+    return class BitSet extends Modul_A {
+        constructor() {
+            super();
+            this.Bits = BITS;
+            this.fHas = has;
+            }
         }
-    );
+    }());//als Immediately Invokes Function Expression (IIFE)
+        //ABC = new BitSet()
     //Beispiel 10.1.1 Seite 270
 
     //#########################################################
-    //last change 2022-12-22
+    //last change 2023-01-03
     // ]]>
     </script>
 </head>
