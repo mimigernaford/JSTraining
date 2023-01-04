@@ -117,9 +117,9 @@
         //die Funktionen hier sind private
         function isValid(set, n) {console.log(set)}
         function has(set, byte, bit) {console.log(set)}
-        const BITS = new Uint8Array([1, 2, 4, 8, 16, 32, 64, 128]);//?was ist das "Uint8Array"
+        const BITS = new Uint8Array([1, 2, 4, 8, 16, 32, 64, 128]);//?was ist das "Uint8Array" -> TypedArray objects https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
         const MASKS = new Uint8Array([~1, ~2, ~4, ~8, ~16, ~16, ~32, ~128]);//?was ist das "Uint8Array" und ~2 Fehler...
-    return class BitSet extends Modul_A {
+    return class BitSet extends Modul_A { //Rückgabewert der funktion ist eine Klasse, darum kann const BitSet wie eine solche genutzt werden
         constructor() {
             super();
             this.Bits = BITS;
@@ -127,9 +127,32 @@
             }
         }
     }());//als Immediately Invokes Function Expression (IIFE)
+        //Rückgabewert der funktion ist eine Klasse, darum kann const BitSet wie eine solche genutzt werden:
         //ABC = new BitSet()
     //Beispiel 10.1.1 Seite 270
+    //Konstante als Modul, nicht: Klasse
+    /*
+    ... einfaches Statistikmodul, das die Funktionen mean() (Durchschnitt), und stddev() (Standardabweichung)
+    exportiert, ohne die Implementierungsdetails preiszugeben:
+    */
+    const stat =(function(){
+       const sum    = (x,y)=>x+y;
+       const square = x=>x*x;
+       //-> öffentliche Funktion, die exportiert wird
+       function mean(data){
+       return data.reduce(sum) / data.length;
+       }
+       //-> öffentliche Funktion, die exportiert wird
+       function stddev(data){
+       let m = mean(data);
+       return Math.sqrt(data.map(x=>x-m).map(square).reduce(sum)/(data.length-1));
+       }
 
+    return {mean,stddev}; //Export der öffentlichen Funktionen als Objekteigenschaften
+    }());
+    /*
+    stat.mean([2,4,3,0]) -> 2.25
+     */
     //#########################################################
     //last change 2023-01-03
     // ]]>
