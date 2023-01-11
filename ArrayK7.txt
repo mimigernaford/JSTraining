@@ -1,0 +1,15 @@
+O'Reilly Javascript 7. Aufl.
+Arrays Kap. 7
+
+x = Array
+
+x.flat(1)
+x.concat(arr)
+x.flatMap(func)
+x.forEach(func)
+x.splice(par,par,par)
+x.fill(par,par,par)
+x.copyWithin(ziel,start,ende)
+x.includes()
+Array.isArray(Arr))
+x.reverse()
