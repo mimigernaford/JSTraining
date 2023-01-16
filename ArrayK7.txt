@@ -12,4 +12,6 @@ x.fill(par,par,par)
 x.copyWithin(ziel,start,ende)
 x.includes()
 Array.isArray(Arr))
+array unique: [...new Set(string oder [])];
 x.reverse()
+Punktoperator [...Arr_1] oder [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln

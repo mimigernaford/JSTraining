@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <script type="text/javascript" src="../duett.js"></script>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 5.5 for/in, Map</title>
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        let arr0 = [1,5,8,7,4,16,8];
+        let arr1 = [10,90,80,70,104,66,8];
+        //************************************************************************
+        //Spr&uuml;nge, benannte Anweisungen, break, continue
+        console.log("mainloop");
+        mainloop: //findet alle zutreffenden Werte
+
+            for(let i = 0;i<arr0.length;i++) {
+                if (arr0[i] < 10) { //MIT "{}"
+                    console.log("mainloop <10 continue => " + arr0[i]);//wenn Bedingung true
+                    continue mainloop;//wenn Bedingung true nächster Wert
+                    //sonst lässt 16 aus
+                    break;//wenn Bedingung false
+                }
+            console.log(arr0[i] + " wurde mit break ausgelassen");
+            }
+        //oder
+        console.log("twoloop");
+        twoloop: //findet den nicht zutreffenden Wert
+            for(let i = 0;i<arr1.length;i++) {
+                if (arr1[i] < 100)//OHNE "{}"
+                continue twoloop;//wenn Bedingung true nächster Wert sonst:
+                console.log("twoloop break: "+ arr1[i]);
+                break;
+            }
+        //********************************************************************
+        //throw, try/catch/finally
+
+        try {
+            for (var i = 0; i < arr1.length; i++) {
+                if (arr1[i] > 100) throw new Error("Fehler mit dem Wert " + arr1[i]); //geht auch
+               // if (arr1[i] > 100) throw {x:"Fehler mit dem Wert " + arr1[i]}; //V2
+            }
+        }
+        catch (e){
+         console.log("catch = Fehlerbehandlung:");
+         //console.log(e.x); //zu V2
+        }
+        finally {
+            console.log("finally");
+            console.log(arr1);
+        }
+        //Nackte catch-Klausel
+        let einArry = [1,2,3];
+        let einObjk = {"a":1,"b":2,"c":3};
+        let einOStr = '{"a":1,"b":2,"c":3}';
+        let D;
+        function parseJson(d){
+            D = d;
+            console.log(typeof D)
+            try{
+
+              return JSON.parse(d);
+            }
+            catch{
+
+              return "Fehler!";
+            }
+
+        }
+
+        var x = parseJson(einArry);
+        var y = parseJson(einObjk);
+        var z = parseJson(einOStr);
+
+
+       console.log(x);
+       console.log(y);
+       console.log(z);
+
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 5.5-6 Spr&uuml;nge, benannte Anweisungen, break, continue, return, yield (s. Kap. 12), throw, try/catch/finally, </h2>
+<p>0</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+</body>
+</html>

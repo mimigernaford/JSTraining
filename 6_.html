@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 6 Objekte</title>
+        <style>
+
+        </style>
+        <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //**********************************************************
+        //6.3.1 S. 146
+        let price = {"IBM":1.25,"CocaCola":3.13,"Opel":5.98}
+        //let stock = {aktie:[]};
+        let stock = {};
+        //stock.aktie.ibm = 50;
+        //stock.aktie["cola"] = 10;
+            function addStock(portfolio,stockname,shares){
+             portfolio[stockname] = shares;
+            }
+            function computeValue(portfolio){
+            let total = 0;
+                for(let paket in portfolio){
+                total += portfolio[paket] * price[paket];
+                console.log(paket +" " +portfolio[paket]+ " Anteile, Preis p/a "+ price[paket]);
+                }
+            return "Summe: "+total +" €";
+            }
+        /*
+        console:
+        addStock(stock,"CocaCola",5);
+        addStock(stock,"IBM",10);
+        addStock(stock,"Opel",100);
+        computeValue(stock);
+         */
+        //********************************************************** 6.6.1- 6.7 erweitern
+        let XO = {a:0,b:"wort",c:true,e:function(x,y){return x+y;}}
+        let ZO = Object.create(XO);
+        ZO.f = "Ein Satz!";
+        function testXO(O){
+            for(var i in O){
+            console.log(O.hasOwnProperty(i));
+            console.log(i);
+            }
+        }
+        let YO = {A:"ist wahr!"}
+        let Xtended = Object.assign({},YO);//kopiert YO in ein neues Objekt "Xtended"
+        Object.assign(Xtended,XO,ZO); //erweitert das Objekt Xtended mit XO, ZO...
+        //********************************************************** 6.8 Objekte serialisieren
+        let S_xtended = JSON.stringify(Xtended);//e fehlt, denn XO.e ist eine function und nicht serialisierbar
+        let R_xtended = JSON.parse(S_xtended);
+        //********************************************************** 6.9 Objektmethoden
+        let AA = ["a","b","c"];
+        let Aa = AA.toString();//toLocalString(); valueOf(),
+        console.log(Aa);
+        let A_xo_e = XO.e.toString();
+        //---------------------------
+        //toJSON()
+        let point = {
+            x:1,
+            y:2,
+            toString:function (){return `(${this.x},${this.y})`;},
+        }
+        let punkt = JSON.stringify([point]);
+        console.log(punkt); //-> [{"x":1,"y":2}]
+        //*********************************************************** 6.10 Erweiterte Syntax für Objektliterale
+        //alt:
+        let x = 1, y = 2;
+        let o = {x:x,y:y}
+        //neu:
+        let O = {x,y};
+        //-- berechnete Eigenschaftsnamen: 6.10.2
+        const PROPERTY_NAME = "p1";
+        function computePropertyName(){return "p" +2};
+        let p = {
+            [PROPERTY_NAME]: 1,
+            [computePropertyName()]:2
+        }
+        console.log("p1+p2=");
+        console.log(p.p1 + p.p2);
+        //-- Symbole als Eigenschaftsnamen 6.10.3 s. 3.6
+        let symname = Symbol("das Symbol");
+        let symname2 = Symbol("das Symbol");
+        o[symname] = {xx:42,yy:13};
+        o[symname2] = {xx:42,yy:13};
+        console.log(Object.getOwnPropertySymbols(o));
+        //6.10.4 ...Operator
+        let Objekt_1 = {a:1,b:2}
+        let Objekt_2 = {c:-1,d:-2}
+        let Objekt_X = {...Objekt_1,...Objekt_2};
+        //besser Setter und Getter s.a. JS/15_object.html und 6. Auflage
+        let P = {
+            x:1,
+            y:1,
+            get r(){return Math.hypot(this.x,this.y);},
+            set r(newvalue){
+                let oldvalue = Math.hypot(this.x, this.y);
+                let ratio = newvalue/oldvalue;
+                this.x *= ratio;
+                this.y *= ratio;
+            },
+            get theta(){return Math.atan2(this.x,this.y);}
+        }
+        console.log("P.r = "+P.r +"\nP.theta = " + P.theta);
+        //]]>
+        </script>
+        </head>
+        <body>
+        <h1>O'Reilly ES2020</h1>
+        <h2>O'Reilly Javascript 7. Aufl. Kap 6 Objekte</h2>
+        <p>0</p>
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+        <p>5</p>
+        </body>
+        </html>

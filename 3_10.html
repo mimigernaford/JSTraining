@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 3.10</title>
+    <style>
+        body p:nth-child(7){color:#f00;}
+    </style>
+    <script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../dlib.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        var Objekt = {};//globales Objekt
+        // Objekt.A = [];
+        //machwas mit Array
+        function machwas([a,b]){
+            a +=1;
+            b +=2;
+            return[a,b];
+        }
+        //---------------------- mit Objekt (?)
+        function tuwas(str,num0,num1){
+        let mult = num0 * num1;
+        let div = num1 / num0;
+        // let retVal = {e0:mult,e1:div,text:str};
+        let retVal = [{e0:mult,e1:div,text:str},{e2:mult+1,e3:div+1,text1:str+" 2"}];//Gibt 2 Objekte in einem Array zurueck
+
+            // Object.defineProperty(retVal, 'text', {
+            //     writable: false
+            // });
+            //Abfrage mit const descriptor1 = Object.getOwnPropertyDescriptor(Objekt, 'text');
+        console.log(retVal.text);
+        return retVal;
+        }
+        //------------------------------------------------------------------------------------------------------------------
+        //---------------------- mit Objekt (?)
+        function tuwas2(params){
+            console.log(params.length);
+            let mult0   = params[0][1] * params[0][2];
+            let div0    = params[0][2] / params[0][1];
+            let text0   = params[0][0];
+            let mult1   = params[1][1] * params[1][2];
+            let div1    = params[1][2] / params[1][1];
+            let text1   = params[1][0];
+            // // let retVal = {e0:mult,e1:div,text:str};
+            let retVal = [{e0:mult0,e1:div0,text:text0},{e2:mult1,e3:div1,text:text1}];//Gibt 2 Objekte in einem Array zurueck
+            //
+            Object.defineProperty(retVal[0], 'text', {
+              writable: false
+            });
+            // //Abfrage mit const descriptor1 = Object.getOwnPropertyDescriptor(Objekt, 'text');
+            // console.log(retVal.text);
+            return retVal;
+        }
+        //------------------------------------------------------------------------------------------------------------------
+        var v_0 = "Variable mit var"; console.log((globalThis.v_0 +" (globalThis)"));console.log((window.v_0 +" (window)"));
+        let O_0 = {x:1,Y:()=>{return 2;}}
+        let D = new Date();
+        let D_0 = D.getDate();
+        let A = [1,2,3];
+        //------------------------------------------------------------------------------------------------------------------
+        onload = ()=> {
+        console.log(D_0);
+            console.log(("mit Object-Object"));
+            for(let i in O_0){
+            console.log(i);
+            }
+            console.log(("mit Date-Object -??"));
+            for(let i in D){
+                console.log(i);
+            } //??
+            console.log(("mit Array-Object"));
+            for(let i in A){
+                console.log(i);
+            }
+        let xx = 1;
+        console.log(globalThis.xx);//->undefined
+        //--------------------------------------
+        //3.10.3 destrukturierende Zuweisung, Ausgabe Array
+        let [x,y] = [1,2];
+        [x,y] = [x+1,y+1];
+        [x,y] = [y,x];//getauscht
+        console.log("destrukturierende Zuweisung, Ausgabe Array -> " +[x,y]);
+
+        let [xa,ya] = machwas([x,y]);
+        console.log("destrukturierende Zuweisung mit function, Ausgabe Array -> " +[xa,ya]);
+        //und mit einem Objekt
+        // let Objekt = {};
+        Objekt.A = tuwas("Das ist Text",2,3); //laesst sich als Konstruktor für Objekte verwenden!
+                //Rueckgabewert: Array mit 2 Objekten => Objekt.A wird angelegt als Array[ Object[0],Object[1] ]
+
+        Objekt.B = tuwas2([["Das ist Text 3",4,5],["Das ist Text 4",6,7]]);
+        console.log(Objekt);
+        }
+
+
+
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 3.10.</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</body>
+</html>

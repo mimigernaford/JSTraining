@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 7 7-8-4f Arrays</title> 
+        <style>
+
+        </style>
+    <script type="text/javascript" src="../dlibV224.js"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        'use strict'; 
+        //**********************************************************
+        //7.8.2 S. 182f
+		//flat, flatMap
+        let Arr_0 = [0,1,2,3,4,5,[6,7,8,9,[10,11,12]]];
+		let Arr_1 = ["Hallo","Welt","---","was","sonst?"];
+		let Arr_2 = [..."abcdefghijk"];
+		let Arr_X = [Arr_0,Arr_1,Arr_2];
+		let Arr_Y = Arr_0.flat(1).concat(Arr_1); //concat mit flat: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'Hallo', 'Welt', '---', 'was', 'sonst?']
+		//Arr_0.flat(1) flattet nur [6,7,8,9] mit 2 auch [10,11,12]
+		let ARR = Arr_X.flat(2);//Parameter =2 "flattet auch das Array in Arr_0[6]"
+		//flatMap: in diesem Beispiel werden ungerade Zahlen durch ein leeres Array ersetzt, das durch flatMap entfernt wird
+		 ARR = ARR.flatMap(wert => {
+				if(!isNaN(wert)){
+					 if (wert %2 == 0)
+					 return wert;
+					 else return [];
+					}
+				else{
+				return wert;
+					}
+				});
+        console.log(ARR);//[0, 2, 4, 6, 8, 'Hallo', 'Welt', '---', 'was', 'sonst?', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+		
+		let Arr_aa= [];
+		Arr_2.forEach( (wert,index) => {
+			Arr_aa[wert] = index;
+			//erzeugt assoc. Arr.
+			} );
+		console.log(Arr_aa);
+		let Arr_bb = Arr_1.slice(3,5);
+		console.log(Arr_bb);//["was","sonst?"]
+		ARR.splice(1,2,"C","D");//nicht mit Arr_aa, 
+		console.log(ARR);
+		//ohne Parameter 2 und 3 werden ab Position 2[1] 2 Elemente gelöscht und bei einer Zuweisung im neuen Array gespeichert
+		let Arr_cc = Arr_1.splice(1,2);
+		//wird splice ein Array zum einfügen übergeben, wird dieses als Array und nicht dessen Werte eingefügt wie bei concat
+		let Arr_3 = [1,2,3];
+		Arr_3.splice(2,1,["a","b","c"]);
+		//**********************
+		//-- fill
+		let Arr_4 = [4,5,6,7];
+		Arr_4.fill("Moin",0,2); //[4,5,6,7] -> ["Moin","Moin",6,7]
+		let Arr_5 = [4,5,6,7];
+		Arr_5.fill("Moin",1,-2); //[4,5,6,7] -> [4, 'Moin', 'Moin', 7] -1 = ab dem Ende des Arrays, -2 -> [4, 'Moin', 6, 7]
+		
+		//-- copyWithin
+		//kopiert den definierten Ausschnitt eines Arrays an eine Zielposition; ändert das Array (Ziel,Start,Ende)
+		let Arr_6 = [0,1,2,3,4,5,6,7,8,9]; //-> [0, 1, 2, 3, 4, 2, 3, 7, 8, 9] // 5 und 6 werden überschrieben
+		Arr_6.copyWithin(5,2,4);
+        //***********************
+        //includes() s. 188 Arr6 = [0, 1, 2, 3, 4, 2, 3, 7, 8, 9]
+        Arr_6.includes(7-4); //= 3 ->true
+        Arr_6.includes(2)   //true
+        //sort() S. 189
+        let Arr_7 = ["zitrone","Kirsche","Aprikose","apfel"];
+        //ohne Berücksichtigung von Groß-/Kleinschreibung:
+		Arr_7.sort(function(a,b){
+			a = a.toLowerCase();
+			b = b.toLowerCase();
+                if(a<b) return -1;
+                else return 1;
+            return 0;
+			});
+        let json_7 = JSON.stringify(Arr_7);
+       // alert("?!?!?!");
+       console.log("array.reverse()");
+       console.log(Arr_7.reverse());//ändert das Original
+       console.log("Arr_7 ist ein Array? -> " + Array.isArray(Arr_7));
+
+       var xxx = document.getElementsByTagName("p"); //--> ist ein "arrayartiges" Objekt mit der DUETT identifizierbar
+       Array.isArray(xxx)
+       /*
+        false !!!!!!
+
+        DUETT.is_array(xxx)
+        true  !!!!
+        */
+        console.log("Array.isArray(xxx) -> " + Array.isArray(xxx));
+        var XXX = Array.from(xxx);
+        console.log("Array.isArray(XXX) XXX aus Array.from(xxx) -> " + Array.isArray(XXX));
+
+
+        //bis S. 193
+		
+
+        //]]>
+        </script>
+        </head>
+        <body>
+        <h1>O'Reilly ES2020</h1>
+        <h2>O'Reilly Javascript 7. Aufl. Kap 7 Arrays</h2>
+        <p>Null</p>
+        <p>eins</p>
+        <p>zwei</p>
+        <p>drei</p>
+        <p>vier</p>
+        <p>fuenf</p>
+        </body>
+        </html>

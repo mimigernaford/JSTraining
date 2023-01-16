@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 3.9</title>
+    <style>
+        body p:nth-child(7){color:#f00;}
+    </style>
+    <script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../dlib.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //3.9 Typumwandlungen - 3.9.2
+        onload = ()=> {
+            let a = Number(3);
+            let b = String(false); // false.toString();
+            let c = Boolean([]);
+            console.log( a +"-"+ b +"-"+ c);
+            //number in string als Pseudo-Round:
+            let z = Math.PI;
+            let zz = z.toFixed(3);
+            console.log("Pi toFixed(2): "+zz);
+            //in Exponentialschreibweise:
+            let zz1 = z.toExponential(2);
+            console.log(zz1);
+            //toPrecision
+            let zz2 = z.toPrecision(8);
+            console.log("toPrecision(8) "+zz2);
+            //s.a. 11.7.1 Intl.NumberFormat
+            //3.9.3
+            let OA = ["a","b"];
+            let OA_s = OA.toString();
+            console.log(OA_s);//=>a,b
+            let OB = {x:1};
+            let OB_s = OB.toString();
+            console.log(OB_s);//=>[object Object]
+            console.log(OA + OB);
+            console.log(eineFunk.toString());
+            let teste_OB = OB.valueOf();
+            console.log(typeof teste_OB);
+            console.log(teste_OB);
+        }
+        function eineFunk(){let c = 2*2;}
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 3.9</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</body>
+</html>

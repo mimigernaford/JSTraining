@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 4</title>
+    <style>
+        body p:nth-child(7){color:#f00;}
+    </style>
+    <script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../dlib.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        //'use strict';
+        let Objekt = {
+            x:1,
+            X:null,
+            F:function(){
+            console.log(this.x)
+            }
+
+        }
+        //Objekt.X?.()
+        //undefined
+        //------------------------------------
+        let a = [121, 144, 19, 161, 19, 144, 19, 11];
+        let b = [121, 14641, 20736, 361, 25921, 361, 20736, 361];
+        let c = [121, 14641, 20736, 361, 25921, 361, 20736, 362];
+        function ArrayEq(a,b) {
+            if(a != null && b != null) {
+                let C = [];
+                let B = b.sort();
+                let A = a.map((i) => {return i * i;}).sort();
+
+                for(let z = 0;z<A.length;z++)
+                    C.push(A[z] == B[z]);
+
+                return C.every((e)=>{return(e);})
+            }
+        }
+        //----------------------------
+        //4.4.1 -5 bedingter Zugriff
+        onload = ()=> {
+        let A = {b:42}
+        let B = {b:{c:1}}
+        console.log("45: " +A.b?.c);//b ist null und c gibt es nicht, mit '?' Ergebnis "undefined" ohne '?' Javascript-Fehler
+            //gut fuer dyn. erzeugte Objekte mit unterschiedl. Eigenschaften/Methoden, die u. U. nicht existieren- Fehler werden so vermieden!
+        console.log("47: "+B.b.c);
+            //(...) 4.9.3 in-Operator
+            console.log("b in A: ");
+            console.log("b" in A);
+        //----------------------------
+        console.log("51 ->" +ArrayEq(a,b));
+        }
+        //4.5.1 Bedingter Aufruf square(2,xlog) => c=3 return 9
+        function xlog(ax){return ax+1;}
+        function square(b,xlog){
+           let c =  xlog?.(b);
+           console.log(c);
+            return c * c;
+        }
+        //---------------------------------
+        let OA = new Object; //ohne Argumente kann die Klammer entfallen
+        let OB = new Date;
+        //--------------------------------- Operatoren
+        let point = {x:1,Y:1};
+        let x_0 = "x" in point;
+        let z_0 = "Y" in point;
+        console.log(
+        "68-> \n" +x_0 +"\n"
+        + z_0
+        );
+        //-----------------------------------------------------------------------
+        //4.12.1 eval
+        var x = 1;
+        eval("x++; var y=3;let c=5;"); //var y=3 nur wenn nicht im strictmode
+        console.log("x=" +x
+        +"\n"+
+            y+"\n"+
+            "c:" +c
+        );
+        var eD = eval("(function F(eX){let x = Math.PI; return x*eX}(x))");//let in eval Variable nur lokal in eval verfügbar.
+        console.log("eD::"+eD);
+        //-----------------------------------------------------------------------
+        var eZ;
+        let eC = eZ ?? 12;
+        console.log("?? -> " +eC);
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 4</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</body>
+</html>

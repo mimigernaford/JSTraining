@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 1.3</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="../dlib.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        //nur neue Browser, kein FF42 etc
+        'use strict';
+
+        let a;
+        a = 1;
+        let b;
+        b = 2;
+        let c = () => {
+            return a + b;
+        }
+        console.log("c: " + c());
+        //1.3 S. 9
+        let points = [
+            {x: 0, y: 0},
+            {x: 1, y: 1}
+        ];
+        const plus1 = x => x + 1;
+        console.log("x=x+1: " + plus1(4));
+        points.dist = function () {
+            let p1 = this[0];
+            let p2 = this[1];
+            let a = p2.x - p1.x;
+            let b = p2.y - p1.y;
+            return Math.sqrt(a * a + b * b);
+            /*
+            points.dist()
+            1.4142135623730951
+            */
+        }
+        //-
+        let arry = [0, 1, 3, 5, 7, 11];
+
+        function sum(xc) {
+            let S = 1;//-> 28
+            for (let x of xc) {
+                S += x;
+            }
+            return S;
+        }
+
+        //--
+        //Schleifen testen
+        let Objekt = {
+            a: 1, b: 2, c: () => {
+                return 2
+            }
+        };
+        let strArray = ["aa", "bb", "cc"];
+        let ascArray = [];
+        ascArray["obst"] = ["Birne", "Apfel", "Kirsche"];
+        ascArray["gemuese"] = ["Zwiebel", "Kartoffel", "Rübe"];
+        let arrArray = [
+            ["Birne", "Apfel", "Kirsche"],
+            ["Zwiebel", "Kartoffel", "Rübe"],
+            ["aa", "bb", "cc"],
+            {
+                a: 1, b: 2, c: () => {
+                    return 2
+                }
+            }
+        ];
+
+        function S1(cluster) {
+            console.log("Array? -> " + DUETT.is_array(cluster));
+            if (DUETT.is_array(cluster)) {
+                console.log("forEach");
+                cluster.forEach(function (k) {
+                    console.log(k);
+                });
+                console.log("for - in:");
+                for (let key in cluster) {
+                    (typeof cluster[key] != "function")
+                        ? console.log(key + " -> " + cluster[key])
+                        : null;
+                }
+                console.log("for - of:");
+                for (let key of cluster) {
+                    console.log(key + " -> " + cluster[key]);
+                    console.log("Parameter: " + cluster);
+                }
+            } else {
+                console.log("cluster ist kein Array");
+                console.log("for - in:");
+                for (let key in cluster) {
+                    console.log(key + " -> " + cluster[key]);
+                }
+            }
+        }
+
+        window.onload = function () {
+            console.log("start");
+            var y = sum(arry);
+            console.log(y);
+        };
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>1.3 </h2>
+</body>
+</html>

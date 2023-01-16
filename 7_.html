@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 7 Arrays</title>
+        <style>
+
+        </style>
+        <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //**********************************************************
+        //7.1.2 S. 169
+        let Arr_0 = [0,1,2,3];
+        let Arr_1 = ["a","b",...Arr_0,"c","d",...Arr_0];
+        let kopie = [...Arr_1];
+        console.log(Arr_1);
+        kopie[0] = "aloa"; //hat keine Auswirkungen auf das Original
+        console.log(kopie);
+        console.log(Arr_1);
+        let digits = [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln
+        console.log(digits);
+        //umwandeln in Array, und unifizieren in einem Rutsch:
+        let wort = [..."hello world"];
+        let uniqueWort = [...new Set(wort)];
+        console.log(wort);
+        console.log(uniqueWort);
+        //Test mit mehrdim. Array:
+        let MDA = [["a","b","c"],[42,104,208]];
+        MDA["huhu"] = ["x","y","z"];
+        let MD2 = [...MDA];//assoz. Arrays müssen explizit mit ... gemergt werden. huhu ist nicht drin!
+        console.log(MD2);
+        MD2 = [...MDA,...MDA["huhu"]];//jetzt ist huhu drin!
+        console.log(MD2);
+        //7.1.4
+        let A1 = new Array(10);//Array mit der Länge 10, das aber leer ist; um ein Array mit -einem- Element vom Typ Number zu erzeugen:
+        let A2 = Array.of(10)//
+        //bei mehreren Zahlen die normale Notation:
+        let A3 = new Array(1,2,3);
+        A3.forEach(function(x){console.log(x);})
+        //ein Array aus einem Objekt 7.1.5
+        let O1 = {x:"ein Text",a:42,funkt:function(){return 1;}}
+        //O1.forEach(function(x){console.log(x);}) //O1.forEach is not a function
+        let aO1 = Array.from(Object.keys(O1)); //Array.from(O1) ergibt ein leeres Array => kleiner Umweg:
+        //aO1.forEach(function (x){console.log(O1[x])}); Kurzform:
+        aO1.forEach((x)=>{console.log("--> "+ O1[x])});
+        let TF = (x)=>{return 1+x}
+        let paraps;
+        function Tester(){
+            let htmlObs = document.getElementsByTagName("p");
+            //htmlObs.forEach((x)=>{console.log("==> "+ x.textContent);}) das geht so nicht mit forEach, sondern zunaechst mit Array.from:
+            //auch der Text der Paragraphs ist verfuegbar!!:
+            paraps = Array.from(htmlObs,(x)=>{
+                    console.log("------>"+x.textContent);
+                    console.log("------>"+x);
+                    //man kann auch Aktionen durchfuehren:
+                    x.textContent = x.textContent +" neuer Inhalt";
+                    //der Inhalt der HTML-Elemente kann direkt beeinflusst werden!! s. Texte in den Paragraphs
+                    return(x.textContent)
+                    });
+            console.log(paraps);
+            let paraps_1 = Array.from(htmlObs);
+            console.log(Object.keys(paraps_1) );
+        }
+        onload = Tester;
+        //------ 7.4, 7.5
+        let a02 = [0,1,2,3,4];
+        console.log("a02:"+ a02 +" length="+ a02.length);
+        a02.length=2;
+        console.log("a02 gekuerzt:"+ a02 +" length="+ a02.length);
+        //Löschen mit delete
+        let a03 = [0,1,2,3,4];
+        let a03a = Array.from(a03);
+        console.log(a03);
+        delete(a03[2]);
+        console.log(a03);//Firefox-Console: Array(5) [ 0, 1, <1 empty slot>, 3, 4 ] und somit ein sparse-Array
+        //----------------------------- 7.6
+        //for/of über Array mit Ermittlung der Indizes (keys)
+        let a04 = [..."Hallo Welt!"];//macht aus dem String ein Array
+            for(let i of a04.entries()){
+            console.log(i); //Array [ 9, "t" ]
+            console.log(i[0] +" --> "+ i[1]); //2 --> l
+            }
+        console.log("ohne entries");
+        for(let i of a04){//ohne entries: s. nur ein "l"
+            console.log(i); //H a l o  W e l t !
+        }
+        console.log(("forEach mit zwei (drei) Parametern"))
+        a04.forEach((wert,index,array)=>{
+            console.log("Wert = "+ wert +" ==>Index = "+ index +" --->Array = "+ array); //o ==> 4 //gibt ebenfalls die Indizes (Arraykeys) in index aus
+        });
+		//Test mit gekürztem Funktionsaufruf, bei mehreren Parametern mit runden Klammern, sonst ohne
+        a04.forEach((wert,index) =>
+            console.log("Test mit gekürztem Funktionsaufruf :: Wert = "+ wert)
+		);		
+        //*************************************************** 7.8.1 Array Methoden
+        //(der Zuordnung halber hier nochmal wiederholt)
+        //forEach, filter s. ftp/JS/reduce_map_filter.js
+		/*
+        console.log(("forEach mit zwei (drei) Parametern"))
+        a04.forEach((wert,index,array)=>{
+            console.log("Wert = "+ wert +" ==>Index = "+ index +" --->Array = "+ array); //o ==> 4 //gibt ebenfalls die Indizes (Arraykeys) in index aus
+        });
+		*/
+		//das Gleiche mit map() gibt statt der Zahlen ein Array mit true/false zurück		
+		var zahlen = [6, 9, 12];
+		var gerade_zahlen = zahlen.filter(function(zahl){
+			if(zahl % 2 == 0){
+				return true;
+			}
+			else {
+				return false;
+			}
+		});
+        var gerade_zahlen_gemapt = zahlen.map(function(zahl){
+            if(zahl % 2 == 0){
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+		console.log("filter [6, 9, 12] Sortiert ungerade Zahlen aus: " +gerade_zahlen);
+		console.log("map [6, 9, 12] true/false: " +gerade_zahlen_gemapt);
+        console.log("============================================");
+        console.log("Werte und Schluessel aus einem Array mit forEach");
+        let a05 = ["Hallo","Welt","---","was","sonst?"];
+        let a05Werte = [];
+        let a05Keys = [];
+            a05.forEach((werte,keys) => {
+               a05Werte.push(werte);
+               a05Keys.push(keys);
+            });
+        console.log(a05Werte);
+        console.log(a05Keys);
+        console.log("============================================");
+		let a06 = [..."abcdefghijk"];
+		let a06as = [];
+		a06.forEach((x,key)=>{
+			a06as[x] = (a06as[x] != key)?key:a06as[x+x] = key
+			}); 
+        //]]>
+        </script>
+        </head>
+        <body>
+        <h1>O'Reilly ES2020</h1>
+        <h2>O'Reilly Javascript 7. Aufl. Kap 7 Arrays</h2>
+        <p>Null</p>
+        <p>eins</p>
+        <p>zwei</p>
+        <p>drei</p>
+        <p>vier</p>
+        <p>fuenf</p>
+        </body>
+        </html>

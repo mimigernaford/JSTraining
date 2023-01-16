@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+<title>54 Class</title>
+<style>
+
+</style>
+<script type="text/javascript" src="dlibV224.js"></script>
+<script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+//nur neue Browser, kein FF42 etc
+'use strict';
+var Autos = [];
+class KFZ{
+	 constructor() {
+	 this.Fahren = function(){
+		console.log("Fahren");
+		};
+	 this.Lenken = function(dir){
+             console.log("nach " +dir+ " lenken.");
+         };
+	 this.Bremsen = function(){
+		console.log("Quietsch!");
+		};	
+	 this.Parken = function(){
+		console.log("Parken nur gegen Geld!");
+		};		
+	 this.Tanken = function(){
+		console.log("Kostet Geld!");
+		};			
+	 }	
+}
+//------------- ---------------------------------------------
+class PKW{
+	constructor(a,b){
+		this.Methoden = new (KFZ);
+		this.Eigenschaften = {};
+	}
+	Create(marke,modell,baujahr,ps,hub,color,tueren,sprit){
+		//gesch�tzt:
+		this.Eigenschaften.marke 		= marke 		|| "o. A."; //vorherige Deklaration notwendig
+			Object.defineProperty(this.Eigenschaften, 'marke', {
+			  writable: false
+			});		
+		this.Eigenschaften.baujahr 		= baujahr 		|| "o. A.";		
+			Object.defineProperty(this.Eigenschaften, 'baujahr', {
+			  writable: false
+			});		
+		this.Eigenschaften.sprit 		= sprit 		|| "o. A.";
+			Object.defineProperty(this.Eigenschaften, 'sprit', {
+			  writable: false
+			});			
+		this.Eigenschaften.tueren 		= tueren 		|| "o. A.";
+			Object.defineProperty(this.Eigenschaften, 'tueren', {
+			  writable: false
+			});		
+
+		// Object.freeze(this.Eigenschaften); //tuts: Eigenschaften k�nnen nicht �berschrieben werden, Test: Object.isFrozen(Auto[n])
+		//�berschreibbar
+		this.Eigenschaften.ps 		= ps 		|| "o. A.";
+		this.Eigenschaften.hub 		= hub 		|| "o. A.";
+		this.Eigenschaften.farbe 	= color 	|| "o. A.";	
+	
+			
+		// Object.freeze(this.Eigenschaften.baujahr);// einzelne Eigenschaften, tuts so nicht. Stattdessen: Object.defineProperty s.o.
+	
+	}	
+}
+//----------------------------------------------------------
+class createFahrzeug extends PKW{
+	Register(name,vorname,strasse,plz,ort){
+	this.eigentuemer = {
+		name	:name 		|| "Mustermann",
+		vorname	:vorname 	|| "Max",
+		strasse	:strasse 	|| "Testweg 1",
+		plz		:plz 		|| "12345",
+		ort		:ort 		|| "Teststadt"
+		}
+	}
+}
+//----------------------------------------------------------
+var Aktionen = {
+	AutoCreate	:function(){
+		var EinAuto = new createFahrzeug();
+		EinAuto.Create($("#marke").val(),$("#modell").val(),$("#baujahr").val(),$("#ps").val(),$("#hub").val(),$("#farbe").val(),$("#tueren").val(),$("#sprit").val());
+		EinAuto.Register($("#name").val(),$("#vorname").val(),$("#strasse").val(),$("#plz").val(),$("#ort").val());
+		// Object.freeze(EinAuto);
+		Autos.push(EinAuto);
+	},
+	Liste		:function(){
+		let z = 0;
+		Autos.forEach(function(a){
+				if(document.getElementById("L"+z)){
+					var x = document.getElementById("L"+z).parentNode;
+					DUETT.rEle(x);
+					console.log(1);
+					}
+		var section = document.createElement("section");
+		section.textContent = "L"+z;
+		section.setAttribute("onclick","$("+"L"+z+").toggle()");
+		var div = document.createElement("div");
+		div.id = "L"+z;
+		var ol = document.createElement("ol");
+		var ul = document.createElement("ul");
+			for(var e in a.eigentuemer){
+			var xe = document.createElement("li");
+			xe.textContent = a.eigentuemer[e];
+			ol.appendChild(xe);
+			}		
+			for(var e in a.Eigenschaften){
+			var xe = document.createElement("li");
+			xe.textContent = a.Eigenschaften[e];
+			ul.appendChild(xe);
+			}
+			
+		div.appendChild(ol);	
+		div.appendChild(ul);
+		section.appendChild(div);
+		document.getElementsByTagName("body")[0].appendChild(section);
+		z++;
+		});
+	console.log(z);
+	}
+}
+
+
+
+// const FiatUno = new createFahrzeug();
+// FiatUno.Create("Fiat","Uno","1990","45","1000","blau","3");
+// FiatUno.Register("D�tting","Michael","Beethovenstra�e 7","48165","M�nster");
+
+/*
+FiatUno.Methoden.Fahren()
+FiatUno.Methoden.Bremsen()
+*/
+//==========================================================
+//]]>
+</script>
+</head>
+<body>
+<form id="machauto" name="machauto" action="javascript:Aktionen.AutoCreate()">
+<fieldset>
+<legend>Eigent&uuml;mer</legend>
+<label for="name">Name</label><input type="text" id="name" name="name" /><br />
+<label for="vorname">Vorname</label><input type="text" id="vorname" name="vorname" /><br />
+<label for="strasse">Stra&szlig;e</label><input type="text" id="strasse" name="strasse" /><br />
+<label for="plz">PLZ</label><input type="text" id="plz" name="plz" /><br />
+<label for="ort">Ort</label><input type="text" id="ort" name="ort" /><br />
+</fieldset>
+<fieldset>
+<legend>Auto</legend>
+<label for="marke">Marke</label><input type="text" id="marke" name="marke" value="Fiat" /><br />
+<label for="modell">Modell</label><input type="text" id="modell" name="modell" value="Uno" /><br />
+<label for="modell">Sprit</label><input type="text" id="sprit" name="sprit" value="Super 95" /><br />
+<label for="baujahr">Baujahr</label><input type="text" id="baujahr" name="baujahr" value="1990" /><br />
+<label for="ps">PS</label><input type="text" id="ps" name="ps" value="45" /><br />
+<label for="hub">Hubraum</label><input type="text" id="hub" name="hub" value="1000" /><br />
+<label for="farbe">Farbe</label><input type="text" id="farbe" name="farbe" value="blau" /><br />
+<label for="tueren">T&uuml;ren</label><input type="text" id="tueren" name="tueren" value="3" /><br />
+</fieldset>
+<input type="submit" value="mach mir auto" />
+</form>
+<p><button type="button" onclick="Aktionen.Liste();">Liste</button></p>
+</body>
+</html>

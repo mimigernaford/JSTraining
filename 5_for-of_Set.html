@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <script type="text/javascript" src="../duett.js"></script>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 5</title>
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        //5 Anweisungen 5.4.4
+        let o = {a:"Apfel",b:"Birne",c:"Clementine"}
+        onload = ()=> {
+            //for/of auf Objekten geht nur mit Object.keys
+            for(let k of Object.keys(o)){
+                console.log(k +" => for/of "+ o[k]);
+            }
+            //statt mit array o[k] alternativ mit Object.values
+            for(let k1 of Object.values(o)){
+                console.log(k1 +" ==> for/of mit Object.values");
+            }
+            //oder Schlüssel/Werte mit Object.entries
+            for(let k2 of Object.entries(o)){
+                console.log(k2[0] +" ===> "+ k2[1] +" "+  "for/of mit Object.entries 1 Eintrag = 1 Array[0,1] ");
+            }
+
+        //geht auch mit forEach
+        Object.keys(o).forEach((k)=>{
+            console.log(k +" -> forEach (30)"+ o[k]);
+            });
+
+
+        //mit Umwandlung von HTML-Objekten geht
+        var aO = Array.prototype.slice.call(document.getElementsByTagName("p"));
+            console.log(aO);
+            aO.forEach(function(dx,z){
+                console.log(dx.nodeName +" -> forEach slice call (38) " +z);
+            });
+        //****************************************************************************
+        //.map
+        var zahlen = [6, 9, 12, 12, 9, 6];
+        var verdoppelte_zahlen = zahlen.map(function(zahl){
+            return zahl * 2;
+        });
+        console.log("map [6, 9, 12] verdoppelte_zahlen: " +verdoppelte_zahlen);
+        //****************************************************************************
+        //mit Umwandlung Objekt o geht nicht?
+        var $$X = Object.create(o);//auch nicht
+        var aX = Array.prototype.slice.call(o);
+        console.log("(51) aX "+ typeof aX);
+        aX.forEach(function(dx,z){
+            console.log(dx.nodeName +" -> forEach slice call (47)" +z);
+        });
+        //****************************************************************************
+        //Beispiel unifiziert Wörter in einem Text
+        let OSet = new Set("alfa beta gamma gamma delta alfa beta".split(" "))
+            for(let oz of OSet){
+                console.log(oz);
+            }
+        //Set
+        /*
+        Set Objekte sind Sammlungen von Werten. Man kann über die Elemente iterieren; sie werden in der Reihenfolge ihres Hinzufügens gespeichert. Jeder Wert ist nur einmal vorhanden; er ist im Set eindeutig.
+         */
+        let s0 = new Set(["x","a","c","b","b","a"]);
+        s0.add("z");
+        //var s1 = s0.sort(); geht nicht
+        console.log(s0);
+        console.log(" size="+ s0.size);
+        var s0_out = s0.has("a");//.has ist Methode von Set!
+        s0.delete("x");//.delete ist Methode von Set
+        console.log(s0);
+        console.log("-------------------------------");
+        console.log("('x' entfernt)");
+            for (let item of s0) console.log("item =" +item);
+            for (let item of s0.keys()) console.log("mit keys()" +item);
+            for (let item of s0.values()) console.log("mit values() " +item);
+        console.log("-------------------------------");
+         console.log(s0_out);//-> true
+        //var s01 = Array.prototype.slice.call(s0);//geht nicht => leeres Array, stattdessen:
+        var s01 = Array.from(s0);//Array from
+        console.log(s01);
+        console.log("size of s0 = "+s0.size);
+        console.log("-------------------------------");
+
+            for(var x of s0){
+                console.log("x of s0:" +x);
+            }
+        console.log("-------------------------------");
+            s01.forEach(function(x){
+                console.log("x aus forEach -> " +x);
+            });
+        }//onload
+
+
+
+
+
+        //****************************************************************************
+        //codewars 20210923
+        /*
+        https://www.codewars.com/kata/525f50e3b73515a6db000b83/solutions/javascript
+        Write a function that accepts an array of 10 integers (between 0 and 9), that returns a string of those numbers in the form of a phone number.
+        createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) // => returns "(123) 456-7890"
+        The returned format must be correct in order to complete this challenge.
+        Don't forget the space after the closing parentheses!
+         */
+        let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+        function createPhoneNumber(numbers){
+            //var call = `(${numbersArr.slice(0,3).join("")}) ${numbersArr.slice(3,6).join("")}-${numbersArr.slice(6,numbersArr.length).join("")}`;
+            return(`(${numbers.slice(0,3).join("")}) ${numbers.slice(3,6).join("")}-${numbers.slice(6,numbers.length).join("")}`);
+
+
+        }
+
+        /*
+        https://www.codewars.com/kata/513e08acc600c94f01000001
+        The rgb function is incomplete. Complete it so that passing in RGB decimal values will result in a hexadecimal representation being returned. Valid decimal values for RGB are 0 - 255. Any values that fall out of that range must be rounded to the closest valid value.
+
+        Note: Your answer should always be 6 characters long, the shorthand with 3 will not work here.
+
+        The following are examples of expected output values:
+
+        rgb(255, 255, 255) // returns FFFFFF
+        rgb(255, 255, 300) // returns FFFFFF
+        rgb(0,0,0) // returns 000000
+        rgb(148, 0, 211) // returns 9400D3
+         */
+        var r = 255,g=Math.PI,b=Math.sqrt(2);
+        function rgb(r,g,b){
+        let retVal = [];
+            Object.values(arguments).forEach((a)=>{
+                (!isNaN(a))
+                ?(function(a){
+                        let ai = parseInt(a);
+                        ai = (ai > 255)?255:(ai < 0 )?"00":ai;
+                        ai = ai.toString(16);
+                        ai = (ai.toString(16).length < 2)?"0"+ai:ai;
+                        // ai = (ai > 255)?"255".toString(16):(ai < 0 )?"00":(ai.toString(16).length < 2)?"0"+ai.toString(16):ai.toString(16);
+                        retVal.push(ai.toUpperCase());
+                        }(a))
+                :retVal.push("00");
+                });
+        return retVal.join("");
+        }
+        //***************************************************************************************************************
+        // cata 20210930
+        /*
+        https://www.codewars.com/kata/52742f58faf5485cae000b9a
+        Your task in order to complete this Kata is to write a function which formats a duration, given as a number of seconds, in a human-friendly way. The function must accept a non-negative integer. If it is zero, it just returns "now". Otherwise, the duration is expressed as a combination of years, days, hours, minutes and seconds. It is much easier to understand with an example:
+
+formatDuration(62)    // returns "1 minute and 2 seconds"
+formatDuration(3662)  // returns "1 hour, 1 minute and 2 seconds"
+For the purpose of this Kata, a year is 365 days and a day is 24 hours. Note that spaces are important. Detailed rules The resulting expression is made of components like 4 seconds, 1 year, etc. In general, a positive integer and one of the valid units of time, separated by a space. The unit of time is used in plural if the integer is greater than 1. The components are separated by a comma and a space (", "). Except the last component, which is separated by " and ", just like it would be written in English. A more significant units of time will occur before than a least significant one. Therefore, 1 second and 1 year is not correct, but 1 year and 1 second is. Different components have different unit of times. So there is not repeated units like in 5 seconds and 1 second. A component will not appear at all if its value happens to be zero. Hence, 1 minute and 0 seconds is not valid, but it should be just 1 minute. A unit of time must be used "as much as possible". It means that the function should not return 61 seconds, but 1 minute and 1 second instead. Formally, the duration specified by of a component must not be greater than any valid more significant unit of time.
+*************************************
+        https://www.codewars.com/kata/5263c6999e0f40dee200059d
+        https://www.codewars.com/kata/51ba717bb08c1cd60f00002f
+         */
+        function formatDuration(seconds){
+        let year=0,month=0,day=0,hours=0,minutes=0,xseconds=0;
+        let outValues   = [];
+        let outUnits    = [];
+        let outData     = [];
+        let y = 31536000;
+        let M = 2592000;
+        let d = 86400;
+        let h = 3600;
+        let m = 60;
+        let s = 1;
+        let units   = [" year"," day"," hour"," minute"," second"];
+        // let units   = [" year"," month"," day"," hour"," minute"," second"];
+        //2y 4M 5d 3h 12m 10s = 73883530
+        //182 days, 1 hour, 44 minutes and 40 seconds
+        if(seconds >=32) {
+            year = parseInt(seconds / y);
+            var rY = seconds - (year * y);
+            //  month = parseInt(rY / M);
+            // var rM = rY - (month * M);
+             day = parseInt(rY / d);
+            var rD = rY - (day * d);
+             hours = parseInt(rD / h);
+            var rH = rD - (hours * h);
+             minutes = parseInt(rH / m);
+            xseconds = rH - (minutes * m);
+        }
+        else{
+        xseconds = seconds;
+        }
+        let values  = [year,day,hours,minutes,xseconds];
+        // let values  = [year,month,day,hours,minutes,xseconds];
+
+            for(let i=0;i<values.length;i++){
+                if(values[i] >0){
+                outValues.push(values[i]);
+                units[i] = (values[i] >1)?units[i]+"s":units[i];
+                outUnits.push(units[i]);
+                }
+            }
+            for(let i=0;i<outValues.length-1;i++){
+            outData.push(outValues[i] + outUnits[i]);
+            }
+        let outStrg = outData.join(", ");
+        outStrg += (outValues.length > 1)
+                ?" and "+ outValues[outValues.length-1] + outUnits[outUnits.length-1]
+                :outValues[outValues.length-1] + outUnits[outUnits.length-1];
+        outStrg = (seconds == 0)?"now":outStrg;
+        return(outStrg);
+        }
+
+
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 5</h2>
+<p>0</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+<title>53 Class</title>
+<style>
+
+</style>
+<script type="text/javascript" src="../dlibV224.js"></script>
+<script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+//nur neue Browser, kein FF42 etc
+'use strict';
+//-----------Konstruktor------------------------------------ //klassisch: ECMA5
+function OB(a,b)
+{
+this.c = a;
+this.d = b;
+this.g = this.R.dd(a,b);
+
+}
+//-----------Prototypen-------------------------------------
+OB.prototype.Q 	= function(x,y){
+				console.log(x +"/"+ y);								
+				}
+OB.prototype.R 	= {
+				aa:1,
+				get xx(){return 4},//=> xx nicht �berschreibbar
+				//set aa(aa){return 22;}, 
+				get aa(){return 22;}, //=> aa nicht �berschreibbar
+				bb:2,
+				cc:function(){console.log("-->"+OB.prototype.R.bb);},
+				dd:function(a,b){return a+b;},
+				ee:0,
+				$n:-2
+				}
+//----------------------------------------------------------
+
+class CD extends OB{
+ constructor(a, b) {
+	super(a,b); //Der constructor ist dann OB
+	this.extend(DUETT);
+	console.log("this.c = "+this.c);
+	}	
+	
+}
+//----------------------------------------------------------
+class AB extends CD{
+	// constructor(a, b) {
+	// ...
+	// }
+	//In diesem Kontext ist an dieser Stelle ein constructor ein Fehler, denn es kann nur einen geben, hier der aus CD
+
+	Methode(){
+	this.alfa = this.c * this.g;	
+	console.log("Ich bin die Methode! c aus OB = " +this.c + " / g aus OB = " + this.g);	
+	}
+}
+//----------------------------------------------------------
+//==========================================================
+
+var Z = new AB(1,2);
+var ZZ = Object.create(new AB(8,8));
+var ZX = Object.create(ZZ);
+ZX.Methode();
+console.log("ZX.alfa = "+ZX.alfa);
+
+//klassisch: ECMA5
+function fabrik(a,b,ext)
+{
+var o = new OB(a,b);
+(ext==true)?o.extend(DUETT):void(0);
+return o;
+}
+var Y = fabrik("C","D",true); 
+//----------------------------------------------------------
+//Instanz aus Interaktion
+const QQ = [];
+var client = {
+	I0:function(){	
+	QQ.push( Object.create(new AB(parseInt($('#Oa').val()),parseInt($('#Ob').val())) ) );
+	client.Anzeige();
+	},
+	Anzeige:function(){
+		QQ.forEach(function(qq){
+		console.log("g = "+qq.g);	
+		})
+	console.log(QQ.length +" Objekte QQ erzeugt.");
+	}
+}
+
+//--------------------------------------------------
+const A = 100;/*
+write name of constants in capital letters
+Can never change a value once assigned
+Block-level scoped same as �let�.
+Needs a value assignment at the time of declaration else it will throw a syntax error �Unexpected token�.
+*/
+var loopOverMyWorld = function(){
+
+let i=A;
+      for(i;i<5*21;i++){
+        console.log(i);
+      }
+
+      console.log("Last value of i where loop stoped",i);
+
+  }
+
+  loopOverMyWorld(); 
+
+
+  //1,2,3,4
+  //Last value of i where loop stoped 5
+
+class AUTO{
+	constructor(a,b){
+	this.A = a;
+	this.B = b;
+	}
+}
+
+//]]>
+</script>
+</head>
+<body>
+<img src="webappUser.jpg" alt="grafik" id="grafik_0" /> 
+	<form method="GET" action="javascript:client.I0()">
+	<label for="Oa">Oa</label> <input type="text" name="Oa" id="Oa" /> <br />
+	<label for="Ob">Ob</label> <input type="text" name="Ob" id="Ob" /> <br />
+	<input type="submit" value="Objekt erzeugen" />
+	</form>
+</body>
+</html>

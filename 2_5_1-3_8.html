@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>ES2020 O'Reilly Javascript 7. Aufl. Kap 2.5.1 - 3.8</title>
+    <style>
+    body p:nth-child(7){color:#f00;}
+    </style>
+    <script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="../dlib.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        'use strict';
+        onload = ()=>{
+        let txt = document.createTextNode("Tätertütötß € \u{1F600}");
+        // document.getElementsByTagName("p")[0].appendChild(txt); //oder mit jQuery:
+        $("p").append(txt);
+        let zahl = 1_000_000;//3.2.2 Trennzeichen Zahlliteralen
+            console.log(zahl);
+        zahl++;
+            console.log(zahl +"\n"+ typeof zahl);
+        //3.2.3
+        console.log(Math.cbrt(27));//Kubikwurzel
+        console.log(2**3);//2hoch3
+        let st = "Lorem ipsum dolor ".repeat(10);//wiederholt 1x den String
+        console.log(st);
+        let jetzt = new Date();
+        let unixsec = jetzt.getTime();
+        let timestamp = Date.now(); //identisch mit .getTime()
+        let iso = jetzt.toISOString();
+        console.log(jetzt +"\n"+
+            timestamp +"\n"+
+            unixsec +"\n"+
+            iso
+            );
+        let st2 = document.createTextNode("eine\
+        lange\
+        Zeile");
+        document.getElementsByTagName("p")[1].appendChild(st2);
+        //--
+        let s = "Hello world";
+        console.log(
+            "s = " +s+"\n"+
+            "startsWith Hell \u{2192} "
+            +s.startsWith("Hell") +"\n"+
+            "endsWith ld \u{2192} " +s.endsWith("ld") +"\n"+
+            "includes world \u{2192} " +s.includes("world") +"\n"
+            );
+        let pt3 =
+            "s = " +s+" "+
+            "startsWith Hell    \u{2192} "  +s.startsWith("Hell") +" <br />"+
+            "endsWith ld        \u{2192} "  +s.endsWith("ld") +"  <br />"+
+            "includes world     \u{2192} "  +s.includes("world") +"  <br />";
+        document.getElementsByTagName("p")[2].innerHTML = pt3;
+
+        let x = "x";
+        console.log(
+            "x.padStart(3) 3 blanks links \u{2192} |" + x.padStart(3)       +"|\n"+
+            "x.padEnd(3) 3 blanks rechts  \u{2192} |" + x.padEnd(3)         +"|\n"+
+            "x.padStart(3,'*') 3 * links  \u{2192} |" + x.padStart(3,"*")   +"|\n"+
+            "x.padEnd(3,'*') 3 * rechts   \u{2192} |" + x.padEnd(3,"*")     +"|\n"
+            );
+        //trimStart() und trimEnd() -> Leerzeichen links/rechts entfernen
+        // concat() ->wie +
+        console.log(x.repeat(5)); //5 Kopien von "x" verketten
+        let t = "abc";
+        let t2 = t.replace("a","x");
+        console.log(t + " != " + t2);
+        //3.3.4 Template-Literale Backticks `
+        let name = "Bill";
+        let greeting = `Hello ${name} Moin!`; //Taste ` [+shift] 2x
+        document.getElementsByTagName("p")[3].textContent  = greeting;
+        console.log(greeting);
+        console.log("{\u2718}");
+        document.getElementsByTagName("p")[4].textContent  = "\u2718";
+        //Getaggte Template-Literale
+        let tt = tickTest`text getaggt mit tickTest`;
+        document.getElementsByTagName("p")[5].textContent  = tt;
+        //3.6 Symbole
+       console.log("3.6 Symbole");
+       let stringname = "string test";
+       let symbolname = Symbol("symbol test");
+       let OB = {};
+       OB[stringname] = 1;
+       OB[symbolname] = 2;
+       console.log(OB[symbolname]);
+       let S = Symbol.for("shared_0");
+       let T = Symbol.for("shared_1");
+       let x0 = S.toString();
+       let x1 = Symbol.keyFor(T);
+       console.log("S === T ->");
+       console.log(S === T);
+       console.log(x0 +" --> "+ x1);
+       console.log("3.7 globales Objekt");
+       console.log(globalThis);
+       //Array kopieren mit from
+       console.log("Array kopieren mit from");
+       let Ar_0 = [0,1,2,3];
+       let Ar_1 = Array.from(Ar_0);
+       let testAR01 = Ar_0 == Ar_1;
+       console.log("Ar_0 == Ar_1 ->" +testAR01);//-> false
+
+        }
+        function tickTest(x){
+        return x + " wurde getickt";
+        }
+        //]]>
+    </script>
+</head>
+<body>
+<h1>O'Reilly ES2020</h1>
+<h2>O'Reilly Javascript 7. Aufl. Kap 2.5.1 - 3.8</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+<title>55 Arrow-Functions</title>
+<style>
+
+</style>
+<script type="text/javascript" src="../dlibV224.js"></script>
+<script type="text/javascript" src="jquery3/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+//nur neue Browser, kein FF42 etc
+'use strict';
+const x = (x, y) => { return x * y };
+/*
+let d = x(2,2);
+console.log(d);
+*/
+const Objekt = {
+	wert_1	:	1,
+	wert_2	:	2,
+	result	:	0,
+	X		:	(x, y) => {
+				console.log("x = "+ x);
+				console.log("w1 = "+ Objekt.wert_1);
+				console.log("y = "+ y);
+				console.log("w2 = "+ Objekt.wert_2);
+				Objekt.result = (x + Objekt.wert_1) * (y + Objekt.wert_2);
+				console.log("result[(x + w1) * (y + w2)] = "+ Objekt.result);
+				//console.log("arguments.length = "+ arguments.length);
+				console.log("[x + w1] = ");
+				console.log(x + Objekt.wert_1);
+				console.log("[y + w2] = ");
+				console.log(y + Objekt.wert_2);
+				//return (x + Objekt.wert_1) * (y + Objekt.wert_2);
+				console.log("this.wert_1 =" +this);
+				console.log("x+w1 * y+w2 =");
+				return x + Objekt.wert_1 * y + Objekt.wert_2;
+				// x=1 y= 0 --> 1 + 0*2 +2  = 3
+				// x=1 y= 1 --> (1+1) * (1+2)  = 6
+				}
+}
+function Tester(){
+console.log("arguments.length = "+ arguments.length);
+}
+//==========================================================
+//]]>
+</script>
+</head>
+<body>
+<h2>Arrow Functions</h2>
+<p>
+	<pre>
+Arrow functions allows a short syntax for writing function expressions.
+You don't need the function keyword, the return keyword, and the curly brackets.
+Arrow functions do not have their own this. They are not well suited for defining object methods.
+Arrow functions are not hoisted. They must be defined before they are used.
+Using const is safer than using var, because a function expression is always a constant value.
+You can only omit the return keyword and the curly brackets if the function is a single statement. Because of this, it might be a good habit to always keep them:
+const x = (x, y) => { return x * y };
+!! es gibt keine "arguments", s. Tester bei "function"
+	</pre>
+</p>
+</body>
+</html>
