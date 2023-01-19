@@ -1,3 +1,4 @@
+*** 2023-01-19 ***
 O'Reilly Javascript 7. Aufl.
 Arrays Kap. 7
 
@@ -16,4 +17,9 @@ Array.isArray(Arr))
 array unique: [...new Set(string oder [])];
 x.reverse()
 sort()
+pop()
+shift()
+Array.of(int)
+Array.from(function)
+delete(arr[key]);
 Punktoperator [...Arr_1] oder [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln
