@@ -2,8 +2,8 @@
 ################################
 #******************************#
 #*    Bibliothek duett.js     *#
-             V 3.0.1
-#*       MD 01-12-2022        *#
+             V 2.2.4
+#*       MD 04-01-2018        *#
 #******************************#
 ################################
 */
@@ -54,17 +54,12 @@ AJAX:function(mode,url,sync,para,result,typOfRslt)
 	},
 /******************************/
 /*entfernt ein Element*/
-rEle:function(e,nr = 0)
+rEle:function(e)
 	{
 		if(e != null)
 		{
-		e = (!e.responseText)
-			?(typeof(e) == "object")
-				?e
-				:(!document.getElementById(e))?document.getElementsByTagName(e)[nr]
-			:document.getElementById(e.responseText);
-		//(!e)?void(0):e.parentNode.removeChild(e);
-		console.log(e);
+		e = (!e.responseText)?(typeof(e) == "object")?e:document.getElementById(e):document.getElementById(e.responseText);
+		(!e)?void(0):e.parentNode.removeChild(e);
 		}
 	},
 /******************************/

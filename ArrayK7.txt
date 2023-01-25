@@ -3,23 +3,32 @@ O'Reilly Javascript 7. Aufl.
 Arrays Kap. 7
 
 x = Array
-
-x.flat(1)
-x.concat(arr)
-x.flatMap(func)
-x.forEach(func)
-x.splice(par,par,par)
-x.slice
-x.fill(par,par,par)
-x.copyWithin(ziel,start,ende)
-x.includes()
+*********
+Array.from(par,function)
 Array.isArray(Arr))
-array unique: [...new Set(string oder [])];
-x.reverse()
-sort()
-pop()
-shift()
 Array.of(int)
-Array.from(function)
+array unique: [...new Set(string oder [])];
 delete(arr[key]);
+x.concat(arr)
+x.copyWithin(ziel,start,ende)
+x.fill(par,par,par)
+x.filter()
+x.flat(1)
+x.flatMap(func)
+for(let i of Array.entries()) ergibt [key,value], zum Suchen zusammen mit .includes
+x.forEach(func(wert,index,array)) //gibt ebenfalls die Indizes (Arraykeys) in index aus
+x.includes() suchen im Array nach einem Wert
+x.map()
+pop()
+x.reduce()
+x.reverse()
+shift()
+x.slice
+x.splice(par,par,par)
+sort()
+function machwas([a,b])
 Punktoperator [...Arr_1] oder [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln
+
+--
+assoz. Arrays
+let am = new Map([ ["Alpha","aa"],["Beta","be"] ]); => Map(2) {'Alpha' => 'aa', 'Beta' => 'be'}
