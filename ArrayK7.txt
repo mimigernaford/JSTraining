@@ -30,5 +30,23 @@ function machwas([a,b])
 Punktoperator [...Arr_1] oder [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln
 
 --
-assoz. Arrays
+
+als "Map" Map != Array!! in_array funktioniert nicht
 let am = new Map([ ["Alpha","aa"],["Beta","be"] ]); => Map(2) {'Alpha' => 'aa', 'Beta' => 'be'}
+neuer Eintrag: am.set("Gamma","cc")
+key/value mit for/of
+for(let[key,val] of am)
+
+assoz. Arrays
+zum Testen
+let keys = ['jede', 'Menge', 'Buchstaben', 'machen', 'einen', 'Text'];
+let vals = ['apfel', 'birne', 'erdbeere', 'pflaume', 'zitrone', 'orange'];
+let asz = [];
+keys.forEach((k,v)=>{
+asz[k] = vals[v]
+});
+includes liefert immer false, hier benutzen: DUETT->Array.in_array : asz.in_array("erdbeere")
+und DUETT.searchKeys(asz,"birne")
+for/of geht nicht
+aber for/in: for(let k in asz)
+
