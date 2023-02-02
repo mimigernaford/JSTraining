@@ -11,8 +11,12 @@ array unique: [...new Set(string oder [])];
 delete(arr[key]);
 x.concat(arr)
 x.copyWithin(ziel,start,ende)
+x.every
+x.some
 x.fill(par,par,par)
 x.filter()
+x.find()
+x.findIndex
 x.flat(1)
 x.flatMap(func)
 for(let i of Array.entries()) ergibt [key,value], zum Suchen zusammen mit .includes
@@ -20,12 +24,16 @@ x.forEach(func(wert,index,array)) //gibt ebenfalls die Indizes (Arraykeys) in in
 x.includes() suchen im Array nach einem Wert
 x.map()
 pop()
+push
 x.reduce()
+x.reduceRight()
 x.reverse()
 shift()
 x.slice
 x.splice(par,par,par)
 sort()
+x.unshift
+
 function machwas([a,b])
 Punktoperator [...Arr_1] oder [..."das ist ein Wort"]; //z.B. String in ein Array umwandeln
 
