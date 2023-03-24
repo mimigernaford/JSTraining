@@ -125,7 +125,8 @@ class DLIB{
 	}
 	/******************************/
 	/*prüft, ob ein Objekt vom Typ Array ist*/
-	is_array(x) {
+	//ersetzt durch ES2020 "Array.isArray"
+	/*is_array(x) {
 		if(x
 		&& typeof x == "object"
 		&& isFinite(x.length)
@@ -136,7 +137,7 @@ class DLIB{
 		return true;
 		else
 		return false;
-	}
+	}*/
 	/******************************/
 	//ArrayKey eines Array-Elements ermitteln
 	ArrKey(arr,e){
