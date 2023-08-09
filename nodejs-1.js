@@ -1,23 +1,25 @@
-/*
-const http = require('http');
+//Testen auf der Konsole von node.js
+//2 Varianten
 
+const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World');
+    res.end('Hello Michael');
 });
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
-*/
-//Testen auf der Konsole von node.js
+
+
+
 'use strict';
 class myServer{
-    constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3000) {
+    constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3030) {
         this.http = require('http');
         this.hostname = hostname;
         this.port = port;
@@ -26,7 +28,9 @@ class myServer{
         this.server = this.http.createServer((req, res) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'html');
+            res.end(`<h1>HuHu</h1>`);
             res.end(`<h1>${message}</h1>`);
+
         });
     }
     Listen() {
