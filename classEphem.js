@@ -178,7 +178,7 @@ class EPHEM extends DLIB {
     }
     //---------------------------------------------------------------------------------------
     startTester(...mandatedata){
-        console.log(`startTester (arguments[0] = ...mandatedata -> is_array?): ${DUETT.is_array(mandatedata)}`);
+        console.log(`startTester (arguments[0] = ...mandatedata -> is_array?): ${Array.isArray(mandatedata)}`);
         for(var x in arguments[0]){
             (typeof arguments[0][x] != "function")?
             console.log(`startTester1 (): ${x} ->${typeof arguments[0][x]} wert -> ${arguments[0][x]}`):null;
@@ -335,9 +335,11 @@ console.log(typeof t)
 
 JDnow = new EPHEM("1978,1,12,23,35,0")
 
-
-JDnow.setJulianischesDatumJd("2022,9,25,13,25,0");
+//Test auf Browser Console
+//JDnow.setJulianischesDatumJd("2022,9,25,13,25,0");
 //JDnow.setJulianischesDatumJd("1978,1,12,23,35,0");
+//JDnow.setJulianischesDatumJd("1966,7,18,23,35,0");
+JDnow.Init();
 JDnow.Helios();
 JDnow.solarsystem.Sonne
 //console.log(JDnow.solarsystem.mars);
