@@ -155,6 +155,19 @@
     stat.mean([2,4,3,0]) -> 2.25
     stat.stddev([2,48,45]) -> 25.7358
      */
+//Kapitel 10: Module
+ /*läuft nur auf der Konsole    :
+        // Alle (öffentlichen und privaten) Funktionen definieren.
+        const sum = (x, y) => x + y;
+        const square=x=>x*x;
+        const mean = data => data.reduce(sum)/data.length;
+        const stddev = d => {
+            let m = mean(d);
+            return Math.sqrt(d.map(x => x - m).map(square).reduce(sum)/(d.length-1));
+        };
+        // Und nur die öffentlichen Funktionen exportieren:
+        module.exports={mean, stddev };
+  */
     //#########################################################
     //last change 2023-01-11
     // ]]>

@@ -8,7 +8,7 @@ const port = 3000;
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello Michael');
+    res.end('{x:1}');
 });
 
 server.listen(port, hostname, () => {
@@ -91,7 +91,7 @@ module.exports = class BitSet extends AbstractWritableSet {
 Kapitel 10: Module
 // Alle (öffentlichen und privaten) Funktionen definieren.
 const sum = (x, y) => x + y;
-constsquare=x=>x*x;
+const square=x=>x*x;
 const mean = data => data.reduce(sum)/data.length;
 const stddev = d => {
 let m = mean(d);
