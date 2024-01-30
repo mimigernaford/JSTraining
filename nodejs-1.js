@@ -1,25 +1,27 @@
 //Testen auf der Konsole von node.js
 //2 Varianten
 
+//Variante 1
+
 const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('{x:1}');
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<h1>{x:400}</h1>');
 });
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
+//--/Variante 1
 
-
-
+//Variante 2
 'use strict';
-class myServer{
-    constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3030) {
+class myServer {
+    constructor(message = "Hallo Welt!", hostname = "127.0.0.1", port = 3030) {
         this.http = require('http');
         this.hostname = hostname;
         this.port = port;
@@ -31,16 +33,18 @@ class myServer{
             res.statusCode = 200;
             res.setHeader('Content-Type', 'html');
             res.end(this.html);
-
+            console.log(`Server running at http://${this.hostname}:${this.port}/`);
 
         });
     }
+
     Listen() {
         this.server.listen(this.port, this.hostname, () => {
             console.log(`Server running at http://${this.hostname}:${this.port}/`);
         });
     }
-
+}
+/*
     class myServer{
     constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3030) {
         this.http = require('http');
@@ -63,8 +67,9 @@ class myServer{
             console.log(`Server running at http://${this.hostname}:${this.port}/`);
         });
     }
-}
 
+}
+*/
 let X = new myServer();
 X.Listen();
 
