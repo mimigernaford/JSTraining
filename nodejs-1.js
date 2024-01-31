@@ -44,34 +44,13 @@ class myServer {
         });
     }
 }
-/*
-    class myServer{
-    constructor(message = "Hallo Welt!",hostname = "127.0.0.1",port = 3030) {
-        this.http = require('http');
-        this.hostname = hostname;
-        this.port = port;
-        this.html = "<!DOCTYPE html><h1>HuHu</h1>" +
-            "<h2>Text H2 </h2>" +
-            "<p>HuHu</p>";
 
-        this.server = this.http.createServer((req, res) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'html');
-            res.end(this.html);
-
-
-        });
-    }
-    Listen() {
-        this.server.listen(this.port, this.hostname, () => {
-            console.log(`Server running at http://${this.hostname}:${this.port}/`);
-        });
-    }
-
-}
-*/
 let X = new myServer();
 X.Listen();
+
+
+
+
 
 //10.2.1 Node-Exporte
 /*
