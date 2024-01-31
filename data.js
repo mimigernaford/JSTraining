@@ -1,7 +1,6 @@
 // 📁 data.js
-'use strict';
-let Opel = []
-export let data = new Map([
+
+module.exports.Daten = new Map([
     ["FIAT",
         {
             type: "PKW",

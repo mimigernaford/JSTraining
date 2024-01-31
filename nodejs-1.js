@@ -1,9 +1,16 @@
+/*
+Import/Export mit node.js
+"require" anstatt "import" wie in ES2020
+Im Gegensatz zu ES2020 muss der import nicht im globalen Scope des geladenen Moduls (Skript) stehen,
+sondern darf auch z. B. in einer Klasse verwendet werden.
+*/
 //Testen auf der Konsole von node.js
 //2 Varianten
 
 //Variante 1
-
+/*
 const http = require('http');
+const {data} = require("./data");
 const hostname = '127.0.0.1';
 const port = 3000;
 
@@ -15,25 +22,58 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
-});
+});*/
 //--/Variante 1
 
 //Variante 2
 'use strict';
+
 class myServer {
     constructor(message = "Hallo Welt!", hostname = "127.0.0.1", port = 3030) {
+        const Data = require('./data.js');//Import des Moduls "Daten"
         this.http = require('http');
         this.hostname = hostname;
         this.port = port;
-        this.html = "<!DOCTYPE html>\n<h1>HuHu</h1>" +
-            "<h2>Text H2 </h2>" +
-            "<p>HuHu</p>";
 
+        //this.textData = "Initdata";
+        this.textData = "<ul>";
+
+        //Map aufschlüsseln
+        for (const element in Data){
+                this.X = Array.from(Data[element]);//Umwandlung der Map in Array
+                for(let daten of this.X){
+                    this.textData += "<li><ul>"+daten[0];
+
+                       for(let fields in daten[1]){
+                        this.textData += "<li>" +fields+ " &rarr; " +daten[1][fields]+ "</li>"   
+                       }
+
+                    this.textData += "</ul></li>";
+                }
+                /*
+                //geht auch:
+                this.X.forEach((xdata)=>{
+                    this.textData += "<li>"+xdata[1].brand+"</li>";
+                    });
+                */                     
+        }
+            
+        
+        this.textData += `</ul>`;
+        this.html = `<!DOCTYPE html>\n` +
+                    `<head>
+                    <meta charset="utf-8" /> 
+                    </head>
+                    <body>
+                    `+
+                    "<h1>Aufschlüsselung eines MAP-Objektes aus einem importierten Modul</h1>" +
+                    this.textData
+                    +`</body>\n</html>`;
         this.server = this.http.createServer((req, res) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'html');
             res.end(this.html);
-            console.log(`Server running at http://${this.hostname}:${this.port}/`);
+            //console.log(`Server running at http://${this.hostname}:${this.port}/`);
 
         });
     }
