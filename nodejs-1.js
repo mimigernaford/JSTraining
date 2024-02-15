@@ -35,9 +35,7 @@ class myServer {
         this.hostname = hostname;
         this.port = port;
 
-        //this.textData = "Initdata";
         this.textData = "<ul>";
-
         //Map aufschlüsseln
         for (const element in Data){
                 this.X = Array.from(Data[element]);//Umwandlung der Map in Array

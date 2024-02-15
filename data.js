@@ -1,5 +1,5 @@
 // 📁 data.js
-
+//hier die Syntax für node.js
 module.exports.Daten = new Map([
     ["FIAT",
         {
