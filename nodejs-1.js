@@ -31,14 +31,17 @@ server.listen(port, hostname, () => {
 class myServer {
     constructor(message = "Hallo Welt!", hostname = "127.0.0.1", port = 3030) {
         const Data = require('./data.js');//Import des Moduls "Daten"
+        const Kats = require('./kategorien.js');//Import des Moduls "Kategorien"
         this.http = require('http');
         this.hostname = hostname;
         this.port = port;
-
-        this.textData = "<ul>";
+        this.textData   = "<p>*********** Methode 1 *********************</p>";
+        this.Kategorien = "<p>*********** Methode 2 *********************</p>";
+        this.textData += "<ul>";
         //Map aufschlüsseln
         for (const element in Data){
                 this.X = Array.from(Data[element]);//Umwandlung der Map in Array
+
                 for(let daten of this.X){
                     this.textData += "<li><ul>"+daten[0];
 
@@ -48,15 +51,34 @@ class myServer {
 
                     this.textData += "</ul></li>";
                 }
-                /*
+
+                   for(let yy in Kats.Kategorien){
+                       console.log(Kats.Kategorien[yy])
+                       for(let xy in Kats.Kategorien[yy]){
+                           console.log(Kats.Kategorien[yy][xy])
+                       }
+
+                   }
+
+
                 //geht auch:
-                this.X.forEach((xdata)=>{
-                    this.textData += "<li>"+xdata[1].brand+"</li>";
-                    });
-                */                     
+/*                this.Y = Array.from(Kats[element]);//Umwandlung der Map in Array
+                this.Y.forEach((ydata)=>{
+                    let yy = Array.from(ydata);
+                    this.Kategorien += `<li>&rarr; ${yy[0]} &rarr; ${yy[1].type}`;//[1] = Map-entry Object aus data .eigenschaft
+                    this.Kategorien += `<ul>`;
+                        for(let attr in yy[1]){
+                            this.Kategorien += `<li>${attr} &rarr; ${yy[1][attr]}</li>`;
+                            };
+
+                    this.Kategorien += `</ul>`;
+                    this.Kategorien += `</li>`;
+                });*/
+
         }
             
         
+        this.textData += this.Kategorien;
         this.textData += `</ul>`;
         this.html = `<!DOCTYPE html>\n` +
                     `<head>
@@ -65,6 +87,9 @@ class myServer {
                     <body>
                     `+
                     "<h1>Aufschlüsselung eines MAP-Objektes aus einem importierten Modul</h1>" +
+                    "<h2>Methode 1: for in / for of</h2>" +
+                    "<h2>Methode 2 forEach / for in</h2>" +
+                    "<h2>Methode 1+2 Array.from()</h2>" +
                     this.textData
                     +`</body>\n</html>`;
         this.server = this.http.createServer((req, res) => {
