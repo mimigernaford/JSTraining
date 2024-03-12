@@ -36,30 +36,29 @@ class myServer {
         this.hostname = hostname;
         this.port = port;
         this.textData   = "<p>*********** Methode 1 *********************</p>";
-        this.Kategorien = "<p>*********** Methode 2 *********************</p>";
+
         this.textData += "<ul>";
         //Map aufschlüsseln
         for (const element in Data){
                 this.X = Array.from(Data[element]);//Umwandlung der Map in Array
-
                 for(let daten of this.X){
                     this.textData += "<li><ul>"+daten[0];
 
                        for(let fields in daten[1]){
                         this.textData += "<li>" +fields+ " &rarr; " +daten[1][fields]+ "</li>"   
                        }
-
                     this.textData += "</ul></li>";
                 }
-
-                   for(let yy in Kats.Kategorien){
-                       console.log(Kats.Kategorien[yy])
-                       for(let xy in Kats.Kategorien[yy]){
-                           console.log(Kats.Kategorien[yy][xy])
-                       }
-
-                   }
-
+           }
+        this.textData += "</ul>";
+        this.Kategorien = "<p>*********** Methode 2 *********************</p>";
+        this.Kategorien += "<ul>";
+        for(let yy in Kats.Kategorien){
+            this.Kategorien += "<li>" +yy+ " &rarr; <ul>";
+                for(let xy in Kats.Kategorien[yy]){
+                this.Kategorien += `<li>${xy} &rarr; ${Kats.Kategorien[yy][xy]}</li>`;
+                }
+        this.Kategorien += "</ul>";
 
                 //geht auch:
 /*                this.Y = Array.from(Kats[element]);//Umwandlung der Map in Array
@@ -79,7 +78,7 @@ class myServer {
             
         
         this.textData += this.Kategorien;
-        this.textData += `</ul>`;
+
         this.html = `<!DOCTYPE html>\n` +
                     `<head>
                     <meta charset="utf-8" /> 

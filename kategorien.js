@@ -2,20 +2,20 @@
 //hier die Syntax für node.js
 module.exports.Kategorien = {
     PKW :{
-        marke   :"Fiat",
-        raeder  :4
+        Marke   :"Fiat",
+        Räder  :4
     },
     LKW :{
-        marke:"MAN",
-        raeder  :6
+        Marke:"MAN",
+        Räder  :6
     },
     KRAD:{
-        marke   :"Suzuki",
-        raeder  :2
+        Marke   :"Suzuki",
+        Räder  :2
     },
     RAD :{
-        marke   :"Einrad",
-        raeder  :1
+        Marke   :"Einrad",
+        Räder  :1
     }
 }
 
