@@ -1,8 +1,20 @@
 /*
+ JavaScript – Das Handbuch für die Praxis, 7th Edition: 10.2.2   Node-Importe
 Import/Export mit node.js
 "require" anstatt "import" wie in ES2020
 Im Gegensatz zu ES2020 muss der import nicht im globalen Scope des geladenen Moduls (Skript) stehen,
 sondern darf auch z. B. in einer Klasse verwendet werden.
+
+10.3.5  JavaScript-Module und das Web
+Webbrowser, die <script type="module">  unterstützen, müssen auch <script nomodule> unterstützen. Skripte, die mit dem
+nomodule -Attribut versehen wurden, werden von modulfähigen Browsern ignoriert und nicht ausgeführt. Browser ohne
+Modulunterstützung kennen das nomodule-Attribut nicht, ignorieren es und sehen nur das <script>-Tag. Als Ergebnis werden
+keine Module geladen, und nur das Skript wird ausgeführt. Dadurch ist diese Technik besonders gut für den Umgang mit
+Kompatibilitätsproblemen von Browsern geeignet. Browser, die ES6-Module unterstützen, können auch mit anderen modernen
+JavaScript-Features wie Klassen, Pfeilfunktionen und for/of-Schleifen umgehen. Wenn Sie ein modernes Java-Script per
+<scripttype="module"> einbinden, können Sie sicher sein, dass es nur von Browsern geladen wird, die Ihr Skript auch
+unterstützen. Als Fallback für ältere Browser können Sie Werkzeuge wie Babel und webpack verwenden, um von Ihrem Code
+eine nicht modulare ES5-Version zu erstellen, die dann wie oben beschrieben per<script nomodule> geladen werden kann.
 */
 //Testen auf der Konsole von node.js
 //2 Varianten
@@ -31,11 +43,13 @@ server.listen(port, hostname, () => {
 class myServer {
     constructor(message = "Hallo Welt!", hostname = "127.0.0.1", port = 3030) {
         const Data = require('./data.js');//Import des Moduls "Daten"
-        const Kats = require('./kategorien.js');//Import des Moduls "Kategorien"
+        //const Kats = require('./kategorien.js');//Import des Moduls "Kategorien" (Standard)
+        const Kats = require('./kategorien');//.js kann weg gelassen werdem
+
         this.http = require('http');
         this.hostname = hostname;
         this.port = port;
-        this.textData   = "<p>*********** Methode 1 *********************</p>";
+        this.textData   += "<p>*********** Methode 1 *********************</p>";
 
         this.textData += "<ul>";
         //Map aufschlüsseln
@@ -75,7 +89,7 @@ class myServer {
                 });*/
 
         }
-            
+
         
         this.textData += this.Kategorien;
 

@@ -1,3 +1,4 @@
+//JavaScript – Das Handbuch für die Praxis, 7th Edition: 10.2.1   Node-Exporte
 // 📁 data.js
 //hier die Syntax für node.js
 module.exports.Kategorien = {
